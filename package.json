@@ -1,0 +1,29 @@
+{
+  "name": "monorepo",
+  "private": true,
+  "scripts": {
+    "lint": "turbo lint",
+    "lint:check": "turbo lint:check",
+    "format": "turbo format",
+    "format:check": "turbo format:check",
+    "build": "turbo build",
+    "test": "turbo test",
+    "release": "pnpm build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.2",
+    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "@typescript-eslint/parser": "^6.9.1",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
+    "prettier": "^3.0.3",
+    "tsup": "^7.2.0",
+    "tsx": "^3.14.0",
+    "turbo": "^1.10.16",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.6"
+  }
+}
