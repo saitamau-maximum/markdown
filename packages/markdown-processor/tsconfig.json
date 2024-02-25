@@ -3,7 +3,13 @@
   "compilerOptions": {
     "outDir": "./dist",
     "types": ["vitest/globals"],
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "declaration": true
   },
-  "include": ["./src/**/*.ts", "./src/**/*.test.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.test.ts",
+    "./src/**/*.tsx",
+    "./src/**/*.test.tsx"
+  ]
 }
