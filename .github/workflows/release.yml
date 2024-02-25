@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 20.x
           always-auth: true
-          scope: "[REPLACE]"
+          scope: "@saitamau-maximum"
 
       - uses: pnpm/action-setup@v2
         name: Install pnpm
