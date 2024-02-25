@@ -66,5 +66,13 @@
         "./dist/client"
       ]
     }
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com/saitamau-maximum/markdown.git",
+    "directory": "packages/markdown-processor"
   }
 }
