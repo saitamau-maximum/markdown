@@ -3,13 +3,13 @@
 ## Installation
 
 ```bash
-npm install @saitamau-maximum/markdown
+npm install @saitamau-maximum/markdown-processor
 ```
 
 ## Usage
 
 ```javascript
-import { parseMarkdownToHtml } from '@saitamau-maximum/markdown/server';
+import { parseMarkdownToHtml } from '@saitamau-maximum/markdown-processor/server';
 
 const markdown = `
 # Hello World
