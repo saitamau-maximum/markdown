@@ -16,7 +16,6 @@ import refractorTypescript from "refractor/lang/typescript";
 import refactorHtml from "refractor/lang/xml-doc";
 import { refractor } from "refractor/lib/core.js";
 import rehypeKatex from "rehype-katex";
-import rehypeMermaid from "rehype-mermaidjs";
 import rehypePrismGenerator from "rehype-prism-plus/generator";
 import rehypeStringify from "rehype-stringify";
 import remarkDirective from "remark-directive";
@@ -70,12 +69,6 @@ const mdHtmlProcessor = unified()
   .use(remarkDirective) //        [mdast -> mdast] directiveブロックを変換
   .use(remarkCodeTitle) //        [mdast -> mdast] codeブロックへタイトル等の構文拡張
   .use(remarkRehype) //           [mdast -> hast ] mdast(Markdown抽象構文木)をhast(HTML抽象構文木)に変換
-  .use(rehypeMermaid, {
-    strategy: "inline-svg",
-    mermaidConfig: {
-      fontFamily: "sans-serif, monospace",
-    },
-  }) //                           [hast  -> hast ] mermaidブロックをmermaid.jsに対応
   .use(rehypeKatex) //            [mdast -> hast ] mathブロックをkatex.jsに対応
   .use(rehypePrism, {
     ignoreMissing: false,
