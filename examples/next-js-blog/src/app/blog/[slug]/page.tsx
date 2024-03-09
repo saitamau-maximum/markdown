@@ -22,7 +22,11 @@ interface Props {
 export default async function BlogDetail({ params }: Props) {
   const { slug } = params;
   const { data, content } = await getBlogDataFromSlug(slug);
-  const parsed = await parseMarkdownToHTML(content);
+  const parsed = await parseMarkdownToHTML(content, {
+    rehypePrettyCodeOption: {
+      theme: "one-dark-pro",
+    },
+  });
 
   return (
     <div>
