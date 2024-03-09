@@ -1,5 +1,11 @@
 # @saitamau-maximum/markdown-processor
 
+## 1.2.0
+
+### Minor Changes
+
+- [`0703a27`](https://github.com/saitamau-maximum/markdown/commit/0703a2747d5393093abdae8ef9c2ec5d4c92fe37) Thanks [@sor4chi](https://github.com/sor4chi)! - シンタックスハイライターにrehype-pretty-codeを用いるよう変更(shiki)
+
 ## 1.1.0
 
 ### Minor Changes
