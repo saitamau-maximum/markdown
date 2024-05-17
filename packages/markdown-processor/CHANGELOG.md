@@ -1,5 +1,11 @@
 # @saitamau-maximum/markdown-processor
 
+## 1.3.0
+
+### Minor Changes
+
+- [`7e465d3`](https://github.com/saitamau-maximum/markdown/commit/7e465d3b626c95fa74a37dfcd33dc5ccb3482dcf) Thanks [@sor4chi](https://github.com/sor4chi)! - export internal types
+
 ## 1.2.0
 
 ### Minor Changes
