@@ -13,7 +13,7 @@ import remarkRehype from "remark-rehype";
 import remarkSlug from "remark-slug";
 import { unified } from "unified";
 
-interface TocItem {
+export interface TocItem {
   /** ヘッダーのレベル */
   depth: number;
   /** ヘッダーのテキスト */
@@ -26,7 +26,7 @@ interface TocItem {
   children: TocItem[];
 }
 
-interface MdHtmlProcessorOption {
+export interface MdHtmlProcessorOption {
   rehypePrettyCodeOption?: Parameters<typeof rehypePrettyCode>[0];
 }
 
