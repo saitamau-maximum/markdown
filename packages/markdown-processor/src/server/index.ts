@@ -13,6 +13,12 @@ import remarkRehype from "remark-rehype";
 import remarkSlug from "remark-slug";
 import { unified } from "unified";
 
+import {
+  remarkEmbed,
+  remarkEmbedHandlers,
+  RemarkEmbedOptions,
+} from "./remark-embed";
+
 export interface TocItem {
   /** ヘッダーのレベル */
   depth: number;
@@ -28,28 +34,36 @@ export interface TocItem {
 
 export interface MdHtmlProcessorOption {
   rehypePrettyCodeOption?: Parameters<typeof rehypePrettyCode>[0];
+  remarkEmbedOption?: RemarkEmbedOptions;
 }
 
 const getMdHtmlProcessor = (option: MdHtmlProcessorOption = {}) =>
   unified()
-    .use(remarkParse) //            [md    -> mdast] Markdownをmdast(Markdown抽象構文木)に変換
+    .use(remarkParse) //           [md    -> mdast] Markdownをmdast(Markdown抽象構文木)に変換
     // @ts-ignore
-    .use(remarkSlug) //             [mdast -> mdast] Headingにid付与（Toc Anchor用）
-    .use(remarkGfm) //              [mdast -> mdast] table等の拡張md記法変換
-    .use(remarkMath) //             [mdast -> mdast] mathブロックを変換
-    .use(remarkDirective) //        [mdast -> mdast] directiveブロックを変換
-    .use(remarkCodeTitle) //        [mdast -> mdast] codeブロックへタイトル等の構文拡張
-    .use(remarkRehype) //           [mdast -> hast ] mdast(Markdown抽象構文木)をhast(HTML抽象構文木)に変換
-    .use(rehypeKatex) //            [mdast -> hast ] mathブロックをkatex.jsに対応
+    .use(remarkSlug) //            [mdast -> mdast] Headingにid付与（Toc Anchor用）
+    .use(remarkGfm) //             [mdast -> mdast] table等の拡張md記法変換
+    .use(remarkMath) //            [mdast -> mdast] mathブロックを変換
+    .use(remarkDirective) //       [mdast -> mdast] directiveブロックを変換
+    .use(remarkCodeTitle) //       [mdast -> mdast] codeブロックへタイトル等の構文拡張
+    .use(remarkEmbed, {
+      ...option.remarkEmbedOption,
+    }) //                          [mdast -> mdast] youtubeなどの埋め込みdirectiveを変換
+    .use(remarkRehype, {
+      handlers: {
+        ...remarkEmbedHandlers,
+      },
+    }) //                          [mdast -> hast ] mdast(Markdown抽象構文木)をhast(HTML抽象構文木)に変換
+    .use(rehypeKatex) //           [mdast -> hast ] mathブロックをkatex.jsに対応
     .use(rehypePrettyCode, {
       ...option.rehypePrettyCodeOption,
-    }) //       [hast  -> hast ] codeブロックをshiki.jsに対応
-    .use(rehypeStringify); //       [hast  -> html ] hast(HTML抽象構文木)をHTMLに変換
+    }) //                          [hast  -> hast ] codeブロックをshiki.jsに対応
+    .use(rehypeStringify); //      [hast  -> html ] hast(HTML抽象構文木)をHTMLに変換
 
 const tocProcessor = unified()
-  .use(remarkParse) //            [md    -> mdast] Markdownをmdast(Markdown抽象構文木)に変換
+  .use(remarkParse) //             [md    -> mdast] Markdownをmdast(Markdown抽象構文木)に変換
   // @ts-ignore
-  .use(remarkSlug) //             [mdast -> mdast] Headingにid付与（Toc Anchor用）
+  .use(remarkSlug) //              [mdast -> mdast] Headingにid付与（Toc Anchor用）
   .use(remarkExtractToc, {
     keys: ["data"],
   });
