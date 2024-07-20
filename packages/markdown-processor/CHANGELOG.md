@@ -1,5 +1,17 @@
 # @saitamau-maximum/markdown-processor
 
+## 1.4.0
+
+### Minor Changes
+
+- [#7](https://github.com/saitamau-maximum/markdown/pull/7) [`a0b5088`](https://github.com/saitamau-maximum/markdown/commit/a0b5088565cd4047eac58739bcd11feaea8b27d4) Thanks [@sor4chi](https://github.com/sor4chi)! - Directive記法ベースの埋め込み構文をサポートしました。
+
+  ```md
+  ::youtube[FmZQF8BpEhc]
+  ```
+
+  URL `https://www.youtube.com/watch?v={videoId}` の `videoId` を指定してください。
+
 ## 1.3.0
 
 ### Minor Changes
