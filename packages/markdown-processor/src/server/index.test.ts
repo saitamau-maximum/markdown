@@ -14,9 +14,6 @@ describe("markdown-processor/server", () => {
         value: "Title",
         data: {
           id: "title",
-          hProperties: {
-            id: "title",
-          },
         },
         children: [
           {
@@ -24,9 +21,6 @@ describe("markdown-processor/server", () => {
             value: "SubTitle",
             data: {
               id: "subtitle",
-              hProperties: {
-                id: "subtitle",
-              },
             },
             children: [
               {
@@ -34,11 +28,7 @@ describe("markdown-processor/server", () => {
                 value: "SubSubTitle",
                 data: {
                   id: "subsubtitle",
-                  hProperties: {
-                    id: "subsubtitle",
-                  },
                 },
-                children: [],
               },
             ],
           },

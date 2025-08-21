@@ -17,6 +17,50 @@ This is a code block:
 console.log("Hello, world!");
 ```
 
+With Diff:
+
+```ts
+const cache = new Map<number, number>(); // [!code ++]
+
+const fib = (n: number) => {
+  if (n <= 1) return n;
+  if (cache.has(n)) return cache.get(n)!; // [!code ++]
+  const result = fib(n - 1) + fib(n - 2); // [!code ++]
+  cache.set(n, result); // [!code ++]
+  return result; // [!code ++]
+  return cache.set(n, fib(n - 1) + fib(n - 2)); // [!code --]
+};
+```
+
+With Highlight:
+
+```ts
+const cache = new Map<number, number>(); // [!code highlight]
+
+const fib = (n: number) => {
+  if (n <= 1) return n;
+  if (cache.has(n)) return cache.get(n)!; // [!code highlight]
+  const result = fib(n - 1) + fib(n - 2); // [!code highlight]
+  cache.set(n, result); // [!code highlight]
+  return result; // [!code highlight]
+  return cache.set(n, fib(n - 1) + fib(n - 2)); // [!code highlight]
+};
+```
+
+With Focus:
+
+```ts
+const cache = new Map<number, number>(); // [!code focus]
+
+const fib = (n: number) => {
+  if (n <= 1) return n;
+  if (cache.has(n)) return cache.get(n)!; // [!code focus]
+  const result = fib(n - 1) + fib(n - 2);
+  cache.set(n, result);
+  return result;
+};
+```
+
 Also supports inline code: `console.log("Hello, world!")`
 
 This is a link: [Google](https://www.google.com)
