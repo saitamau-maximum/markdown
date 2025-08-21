@@ -1,8 +1,8 @@
-import rehypeKatex from "rehype-katex";
 import rehypeShiki, { type RehypeShikiOptions } from "@shikijs/rehype";
+import rehypeKatex from "rehype-katex";
+import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
 import remarkDirective from "remark-directive";
-import rehypeSlug from "rehype-slug";
 import remarkCodeTitle from "remark-flexible-code-titles";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -10,13 +10,12 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
+import rehypeExtractToc, { TocItem } from "./rehype-extract-toc";
 import {
   remarkEmbed,
   remarkEmbedHandlers,
   RemarkEmbedOptions,
 } from "./remark-embed";
-
-import rehypeExtractToc, { TocItem } from "./rehype-extract-toc";
 
 export type { TocItem };
 
@@ -27,27 +26,24 @@ export interface MdHtmlProcessorOption {
 
 const processor = (option: MdHtmlProcessorOption = {}) =>
   unified()
-    .use(remarkParse) //           [md    -> mdast] Markdownをmdast(Markdown抽象構文木)に変換
-    .use(remarkGfm) //             [mdast -> mdast] table等の拡張md記法変換
-    .use(remarkMath) //            [mdast -> mdast] mathブロックを変換
-    .use(remarkDirective) //       [mdast -> mdast] directiveブロックを変換
-    .use(remarkCodeTitle) //       [mdast -> mdast] codeブロックへタイトル等の構文拡張
+    .use(remarkParse) //                                   [md    -> mdast] Markdownをmdast(Markdown抽象構文木)に変換
+    .use(remarkGfm) //                                     [mdast -> mdast] table等の拡張md記法変換
+    .use(remarkMath) //                                    [mdast -> mdast] mathブロックを変換
+    .use(remarkDirective) //                               [mdast -> mdast] directiveブロックを変換
+    .use(remarkCodeTitle) //                               [mdast -> mdast] codeブロックへタイトル等の構文拡張
     .use(remarkEmbed, {
       ...option.remarkEmbedOption,
-    }) //                          [mdast -> mdast] youtubeなどの埋め込みdirectiveを変換
+    }) //                                                  [mdast -> mdast] youtubeなどの埋め込みdirectiveを変換
     .use(remarkRehype, {
       handlers: {
         ...remarkEmbedHandlers,
       },
-    }) //                          [mdast -> hast ] mdast(Markdown抽象構文木)をhast(HTML抽象構文木)に変換
-    .use(rehypeKatex) //           [mdast -> hast ] mathブロックをkatex.jsに対応
-    .use(rehypeSlug) //            [hast  -> hast ] Headingにid付与（Toc Anchor用）
-    // @ts-ignore
-    .use(rehypeShiki, {
-      ...option.rehypeShikiOption,
-    }) //                          [hast  -> hast ] codeブロックをshiki.jsに対応
-    .use(rehypeExtractToc) //      [hast  -> hast ] TOCを抽出
-    .use(rehypeStringify); //      [hast  -> html ] hast(HTML抽象構文木)をHTMLに変換
+    }) //                                                  [mdast -> hast ] mdast(Markdown抽象構文木)をhast(HTML抽象構文木)に変換
+    .use(rehypeKatex) //                                   [mdast -> hast ] mathブロックをkatex.jsに対応
+    .use(rehypeSlug) //                                    [hast  -> hast ] Headingにid付与（Toc Anchor用）
+    .use(rehypeShiki, option.rehypeShikiOption ?? true) // [hast  -> hast ] codeブロックをshiki.jsに対応
+    .use(rehypeExtractToc) //                              [hast  -> hast ] TOCを抽出
+    .use(rehypeStringify); //                              [hast  -> html ] hast(HTML抽象構文木)をHTMLに変換
 
 // キャッシュして初期化コストを削減
 const processorCache: Map<

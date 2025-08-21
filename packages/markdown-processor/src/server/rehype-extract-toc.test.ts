@@ -1,7 +1,9 @@
-import { describe, it, expect } from "vitest";
-import type { Root } from "hast";
 import { VFile } from "vfile";
+import { describe, it, expect } from "vitest";
+
 import rehypeExtractToc from "./rehype-extract-toc";
+
+import type { Root } from "hast";
 
 describe("rehype-extract-toc", () => {
   it("should extract headings and create TOC", () => {

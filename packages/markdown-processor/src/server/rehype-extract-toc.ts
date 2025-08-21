@@ -1,6 +1,7 @@
 import { headingRank as rank } from "hast-util-heading-rank";
 import { toString } from "hast-util-to-string";
 import { visit } from "unist-util-visit";
+
 import type { Node, Element } from "hast";
 import type { VFile } from "vfile";
 
