@@ -1,5 +1,5 @@
 ---
-"markdown-processor": major
+"@saitamau-maximum/markdown-processor": major
 ---
 
 Migrate from rehype-pretty-code to Shiki.js v3
