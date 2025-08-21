@@ -30,7 +30,6 @@
     "remark-mermaidjs": "^7.0.0",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
-    "remark-slug": "^8.0.0",
     "shiki": "^3.11.0",
     "unified": "^11.0.5"
   },

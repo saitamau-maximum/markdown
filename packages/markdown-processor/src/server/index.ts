@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import rehypeKatex from "rehype-katex";
 import rehypeShiki, { type RehypeShikiOptions } from "@shikijs/rehype";
 import rehypeStringify from "rehype-stringify";
 import remarkDirective from "remark-directive";
+import rehypeSlug from "rehype-slug";
 // @ts-ignore
 import remarkExtractToc from "remark-extract-toc";
 import remarkCodeTitle from "remark-flexible-code-titles";
@@ -10,7 +10,6 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
-import remarkSlug from "remark-slug";
 import { unified } from "unified";
 
 import {
@@ -40,8 +39,6 @@ export interface MdHtmlProcessorOption {
 const getMdHtmlProcessor = (option: MdHtmlProcessorOption = {}) =>
   unified()
     .use(remarkParse) //           [md    -> mdast] Markdownをmdast(Markdown抽象構文木)に変換
-    // @ts-ignore
-    .use(remarkSlug) //            [mdast -> mdast] Headingにid付与（Toc Anchor用）
     .use(remarkGfm) //             [mdast -> mdast] table等の拡張md記法変換
     .use(remarkMath) //            [mdast -> mdast] mathブロックを変換
     .use(remarkDirective) //       [mdast -> mdast] directiveブロックを変換
@@ -55,6 +52,7 @@ const getMdHtmlProcessor = (option: MdHtmlProcessorOption = {}) =>
       },
     }) //                          [mdast -> hast ] mdast(Markdown抽象構文木)をhast(HTML抽象構文木)に変換
     .use(rehypeKatex) //           [mdast -> hast ] mathブロックをkatex.jsに対応
+    .use(rehypeSlug) //            [hast  -> hast ] Headingにid付与（Toc Anchor用）
     // @ts-ignore
     .use(rehypeShiki, {
       ...option.rehypeShikiOption,
