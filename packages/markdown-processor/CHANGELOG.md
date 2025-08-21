@@ -1,5 +1,28 @@
 # @saitamau-maximum/markdown-processor
 
+## 2.0.0
+
+### Major Changes
+
+- [#9](https://github.com/saitamau-maximum/markdown/pull/9) [`c88f3b9`](https://github.com/saitamau-maximum/markdown/commit/c88f3b9c30251ef038f91b1a263e62a82c6bd7f6) Thanks [@sor4chi](https://github.com/sor4chi)! - Migrate from rehype-pretty-code to Shiki.js v3
+
+  - Replace `rehype-pretty-code` with `@shikijs/rehype` for improved syntax highlighting performance
+  - Implement custom `rehype-extract-toc` plugin to extract table of contents directly from HAST tree
+  - Move slug generation from remark phase to rehype phase for better compatibility
+  - Update all remark/rehype dependencies to latest versions
+  - **Breaking**: Rename `rehypePrettyCodeOption` to `rehypeShikiOption` in processor options
+  - **Breaking**: HTML output structure for code blocks has changed significantly. If you have custom CSS styles targeting rehype-pretty-code classes (e.g., `.code-line`, `[data-highlighted-line]`), you'll need to update them for Shiki's HTML structure
+
+### Minor Changes
+
+- [#7](https://github.com/saitamau-maximum/markdown/pull/7) [`a0b5088`](https://github.com/saitamau-maximum/markdown/commit/a0b5088565cd4047eac58739bcd11feaea8b27d4) Thanks [@sor4chi](https://github.com/sor4chi)! - Directive記法ベースの埋め込み構文をサポートしました。
+
+  ```md
+  ::youtube[FmZQF8BpEhc]
+  ```
+
+  URL `https://www.youtube.com/watch?v={videoId}` の `videoId` を指定してください。
+
 ## 1.3.0
 
 ### Minor Changes

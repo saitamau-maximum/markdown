@@ -1,5 +1,12 @@
 # next-js-blog
 
+## 0.1.4
+
+### Patch Changes
+
+- Updated dependencies [[`a0b5088`](https://github.com/saitamau-maximum/markdown/commit/a0b5088565cd4047eac58739bcd11feaea8b27d4), [`c88f3b9`](https://github.com/saitamau-maximum/markdown/commit/c88f3b9c30251ef038f91b1a263e62a82c6bd7f6)]:
+  - @saitamau-maximum/markdown-processor@2.0.0
+
 ## 0.1.3
 
 ### Patch Changes
