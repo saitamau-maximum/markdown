@@ -1,0 +1,69 @@
+pre > code {
+  display: block;
+  width: fit-content;
+  min-width: 100%;
+  padding: 0px 24px;
+  font-size: 16px;
+  line-height: 1.8;
+  box-sizing: border-box;
+}
+
+code .line {
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0px 24px;
+  margin: 0px -24px;
+  width: calc(100% + 48px);
+}
+
+pre:has(> code) {
+  padding: 20px 0px;
+  border-radius: 12px;
+}
+
+/* diff example */
+
+code .diff::before {
+  position: absolute;
+  left: 16px;
+}
+
+code .diff.add {
+  background-color: #00800020;
+}
+
+code .diff.remove {
+  background-color: #ff000020;
+}
+
+code .diff.add::before {
+  content: "+";
+  color: #008000;
+}
+
+code .diff.remove::before {
+  content: "-";
+  color: #ff0000;
+}
+
+/* highlight example */
+
+code .highlighted {
+  background-color: #80808020;
+}
+
+/* focus example */
+pre.has-focused code .line {
+  opacity: 0.85;
+  filter: blur(1.5px);
+  transition:
+    filter 0.25s,
+    opacity 0.25s;
+}
+
+pre.has-focused:hover code .line,
+pre.has-focused code .line.focused {
+  filter: blur(0px);
+  opacity: 1;
+}

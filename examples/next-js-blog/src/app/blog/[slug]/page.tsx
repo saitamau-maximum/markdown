@@ -1,4 +1,9 @@
 import { parseMarkdownToHTML } from "@saitamau-maximum/markdown-processor/server";
+import {
+  transformerNotationDiff,
+  transformerNotationHighlight,
+  transformerNotationFocus,
+} from "@shikijs/transformers";
 import Link from "next/link";
 
 import {
@@ -6,6 +11,7 @@ import {
   getBlogPathList,
   getBlogSlugFromPath,
 } from "../../../util/markdown";
+import "./style.css";
 
 export async function generateStaticParams() {
   const paths = await getBlogPathList();
@@ -23,8 +29,13 @@ export default async function BlogDetail({ params }: Props) {
   const { slug } = params;
   const { data, content } = await getBlogDataFromSlug(slug);
   const parsed = await parseMarkdownToHTML(content, {
-    rehypePrettyCodeOption: {
+    rehypeShikiOption: {
       theme: "one-dark-pro",
+      transformers: [
+        transformerNotationDiff(),
+        transformerNotationHighlight(),
+        transformerNotationFocus(),
+      ],
     },
   });
 
