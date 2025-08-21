@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import rehypeKatex from "rehype-katex";
-import rehypePrettyCode from "rehype-pretty-code";
+import rehypeShiki, { type RehypeShikiOptions } from "@shikijs/rehype";
 import rehypeStringify from "rehype-stringify";
 import remarkDirective from "remark-directive";
 // @ts-ignore
@@ -33,7 +33,7 @@ export interface TocItem {
 }
 
 export interface MdHtmlProcessorOption {
-  rehypePrettyCodeOption?: Parameters<typeof rehypePrettyCode>[0];
+  rehypeShikiOption?: RehypeShikiOptions;
   remarkEmbedOption?: RemarkEmbedOptions;
 }
 
@@ -55,8 +55,9 @@ const getMdHtmlProcessor = (option: MdHtmlProcessorOption = {}) =>
       },
     }) //                          [mdast -> hast ] mdast(Markdown抽象構文木)をhast(HTML抽象構文木)に変換
     .use(rehypeKatex) //           [mdast -> hast ] mathブロックをkatex.jsに対応
-    .use(rehypePrettyCode, {
-      ...option.rehypePrettyCodeOption,
+    // @ts-ignore
+    .use(rehypeShiki, {
+      ...option.rehypeShikiOption,
     }) //                          [hast  -> hast ] codeブロックをshiki.jsに対応
     .use(rehypeStringify); //      [hast  -> html ] hast(HTML抽象構文木)をHTMLに変換
 
