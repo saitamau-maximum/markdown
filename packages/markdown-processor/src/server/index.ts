@@ -3,8 +3,6 @@ import rehypeShiki, { type RehypeShikiOptions } from "@shikijs/rehype";
 import rehypeStringify from "rehype-stringify";
 import remarkDirective from "remark-directive";
 import rehypeSlug from "rehype-slug";
-// @ts-ignore
-import remarkExtractToc from "remark-extract-toc";
 import remarkCodeTitle from "remark-flexible-code-titles";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -18,25 +16,16 @@ import {
   RemarkEmbedOptions,
 } from "./remark-embed";
 
-export interface TocItem {
-  /** ヘッダーのレベル */
-  depth: number;
-  /** ヘッダーのテキスト */
-  value: string;
-  /** ヘッダーの属性データ */
-  data: {
-    id: string;
-  };
-  /** ヘッダーの子要素 */
-  children: TocItem[];
-}
+import rehypeExtractToc, { TocItem } from "./rehype-extract-toc";
+
+export type { TocItem };
 
 export interface MdHtmlProcessorOption {
   rehypeShikiOption?: RehypeShikiOptions;
   remarkEmbedOption?: RemarkEmbedOptions;
 }
 
-const getMdHtmlProcessor = (option: MdHtmlProcessorOption = {}) =>
+const processor = (option: MdHtmlProcessorOption = {}) =>
   unified()
     .use(remarkParse) //           [md    -> mdast] Markdownをmdast(Markdown抽象構文木)に変換
     .use(remarkGfm) //             [mdast -> mdast] table等の拡張md記法変換
@@ -57,37 +46,30 @@ const getMdHtmlProcessor = (option: MdHtmlProcessorOption = {}) =>
     .use(rehypeShiki, {
       ...option.rehypeShikiOption,
     }) //                          [hast  -> hast ] codeブロックをshiki.jsに対応
+    .use(rehypeExtractToc) //      [hast  -> hast ] TOCを抽出
     .use(rehypeStringify); //      [hast  -> html ] hast(HTML抽象構文木)をHTMLに変換
 
-const tocProcessor = unified()
-  .use(remarkParse) //             [md    -> mdast] Markdownをmdast(Markdown抽象構文木)に変換
-  // @ts-ignore
-  .use(remarkSlug) //              [mdast -> mdast] Headingにid付与（Toc Anchor用）
-  .use(remarkExtractToc, {
-    keys: ["data"],
-  });
-
 // キャッシュして初期化コストを削減
-const mdHtmlProcessorCache: Map<
+const processorCache: Map<
   MdHtmlProcessorOption,
-  ReturnType<typeof getMdHtmlProcessor>
+  ReturnType<typeof processor>
 > = new Map();
 
 export const parseMarkdownToHTML = async (
   mdContent: string,
   option: MdHtmlProcessorOption = {},
 ) => {
-  if (!mdHtmlProcessorCache.has(option)) {
-    // 毎回初期化すると遅いので、初回のみ初期化する
-    mdHtmlProcessorCache.set(option, getMdHtmlProcessor(option));
+  // 毎回初期化すると遅いので、初回のみ初期化する
+  let _processor = processorCache.get(option);
+  if (!_processor) {
+    _processor = processor(option);
+    processorCache.set(option, _processor);
   }
-  const mdHtmlProcessor = mdHtmlProcessorCache.get(option)!;
-  const [content, toc] = await Promise.all([
-    await mdHtmlProcessor.process(mdContent),
-    await tocProcessor.run(tocProcessor.parse(mdContent)),
-  ]);
+
+  const content = await _processor.process(mdContent);
+
   return {
     content: content.toString(),
-    toc: toc as unknown as TocItem[],
+    toc: content.data.toc as TocItem[],
   };
 };
