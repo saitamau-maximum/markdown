@@ -19,7 +19,6 @@ import {
   RemarkEmbedOptions,
 } from "./remark-embed";
 
-
 export type { TocItem };
 
 export interface MdHtmlProcessorOption {

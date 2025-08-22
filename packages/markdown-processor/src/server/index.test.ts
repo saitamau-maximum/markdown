@@ -5,7 +5,6 @@ import type { Element, Node } from "hast";
 
 import { parseMarkdownToHTML } from ".";
 
-
 describe("markdown-processor/server", () => {
   it("should work with tocProcessor", async () => {
     const md = `
