@@ -1,7 +1,9 @@
-import { Element, Node } from "hast";
-import { parseMarkdownToHTML } from ".";
-import { visit } from "unist-util-visit";
 import { h } from "hastscript";
+import { visit } from "unist-util-visit";
+
+import { parseMarkdownToHTML } from ".";
+
+import type { Element, Node } from "hast";
 
 describe("markdown-processor/server", () => {
   it("should work with tocProcessor", async () => {
