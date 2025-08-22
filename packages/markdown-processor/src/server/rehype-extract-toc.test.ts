@@ -1,8 +1,8 @@
 import { VFile } from "vfile";
 
-import rehypeExtractToc from "./rehype-extract-toc";
-
 import type { Root } from "hast";
+
+import rehypeExtractToc from "./rehype-extract-toc";
 
 describe("rehype-extract-toc", () => {
   it("should extract headings and create TOC", () => {
