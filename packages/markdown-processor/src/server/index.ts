@@ -10,6 +10,8 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { Plugin, unified } from "unified";
 
+import type { Root as HastRoot } from "hast";
+
 import rehypeExtractToc, { TocItem } from "./rehype-extract-toc";
 import {
   remarkEmbed,
@@ -17,7 +19,6 @@ import {
   RemarkEmbedOptions,
 } from "./remark-embed";
 
-import type { Root as HastRoot } from "hast";
 
 export type { TocItem };
 
