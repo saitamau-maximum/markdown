@@ -1,5 +1,4 @@
 import { VFile } from "vfile";
-import { describe, it, expect } from "vitest";
 
 import rehypeExtractToc from "./rehype-extract-toc";
 
