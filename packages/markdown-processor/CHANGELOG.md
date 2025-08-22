@@ -1,5 +1,17 @@
 # @saitamau-maximum/markdown-processor
 
+## 2.1.0
+
+### Minor Changes
+
+- [#12](https://github.com/saitamau-maximum/markdown/pull/12) [`e125ae5`](https://github.com/saitamau-maximum/markdown/commit/e125ae57bcd365ed1c0f15ccf159461db76f67da) Thanks [@sor4chi](https://github.com/sor4chi)! - ## Support for custom Rehype plugins
+
+  You can now configure and use any Rehype plugin as part of the processing pipeline.
+
+  ## Default theme for rehypeShikiOption
+
+  When `rehypeShikiOption` is not specified, a default theme (`github-dark`) will now be applied automatically.
+
 ## 2.0.0
 
 ### Major Changes
