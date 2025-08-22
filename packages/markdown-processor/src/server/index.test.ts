@@ -57,6 +57,7 @@ const a = 1;
         | null
         | undefined,
     ) => {
+      if (className === null || className === undefined) return [];
       if (typeof className === "string") {
         return className.split(" ");
       }
