@@ -87,7 +87,7 @@ const a = 1;
       ],
     });
     expect(content).toMatchInlineSnapshot(
-      '"<div class=\\"remark-code-container\\"><button type=\\"button\\" class=\\"copy-button\\"></button><pre class=\\"shiki github-dark\\" style=\\"background-color:#24292e;color:#e1e4e8\\" tabindex=\\"0\\"><code><span class=\\"line\\"><span style=\\"color:#F97583\\">const</span><span style=\\"color:#79B8FF\\"> a</span><span style=\\"color:#F97583\\"> =</span><span style=\\"color:#79B8FF\\"> 1</span><span style=\\"color:#E1E4E8\\">;</span></span></code></pre></div>"',
+      '"<div class="remark-code-container"><button type="button" class="copy-button"></button><pre class="shiki github-dark" style="background-color:#24292e;color:#e1e4e8" tabindex="0"><code><span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> a</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> 1</span><span style="color:#E1E4E8">;</span></span></code></pre></div>"',
     );
   });
 });
