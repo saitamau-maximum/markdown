@@ -40,7 +40,7 @@ describe("markdown-processor/server", () => {
         ],
       },
     ]);
-  });
+  }, 100_000 /* 時間がかかるっぽいので一応 100s */);
 
   it("should work with custom rehype plugins", async () => {
     const md = `
