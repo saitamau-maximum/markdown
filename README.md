@@ -12,11 +12,10 @@
 npm install @saitamau-maximum/markdown-processor
 ```
 
-
 ## Usage
 
 ```javascript
-import { parseMarkdownToHtml } from '@saitamau-maximum/markdown-processor/server';
+import { parseMarkdownToHtml } from "@saitamau-maximum/markdown-processor/server";
 
 const markdown = `
 # Hello World
