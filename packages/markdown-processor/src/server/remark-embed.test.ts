@@ -27,7 +27,7 @@ describe("remarkEmbed", () => {
       const result = processor.processSync(md).toString();
 
       expect(result).toMatchInlineSnapshot(`
-"<iframe width=\\"800\\" height=\\"450\\" src=\\"https://www.youtube.com/embed/abcdefg\\" title=\\"YouTube video player\\" frameborder=\\"0\\" allow=\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\" allowfullscreen style=\\"display: block; width: 100%; aspect-ratio: 800/450; height: auto\\"></iframe>"
+"<iframe width="800" height="450" src="https://www.youtube.com/embed/abcdefg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; width: 100%; aspect-ratio: 800/450; height: auto"></iframe>"
 `);
     });
 
@@ -55,7 +55,7 @@ describe("remarkEmbed", () => {
       const result = processor.processSync(md).toString();
 
       expect(result).toMatchInlineSnapshot(`
-"<iframe width=\\"640\\" height=\\"360\\" src=\\"https://www.youtube.com/embed/abcdefg\\" title=\\"YouTube video player\\" frameborder=\\"0\\" allow=\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\" allowfullscreen style=\\"display: block; width: 100%; aspect-ratio: 640/360; height: auto\\"></iframe>"
+"<iframe width="640" height="360" src="https://www.youtube.com/embed/abcdefg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; width: 100%; aspect-ratio: 640/360; height: auto"></iframe>"
     `);
     });
   });

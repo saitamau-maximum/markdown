@@ -1,16 +1,18 @@
-import { glob } from 'glob'
-import { defineConfig } from 'tsup'
+import { glob } from "glob";
+import { defineConfig } from "tsup";
 
-const entryPoints = glob.sync('./src/**/*.+(ts|tsx|json)', {
-  ignore: ['./src/**/*.test.+(ts|tsx)'],
-})
+const entryPoints = glob
+  .sync("./src/**/*.+(ts|tsx|json)", {
+    ignore: ["./src/**/*.test.+(ts|tsx)"],
+  })
+  .map((file) => file.replaceAll("\\", "/"));
 
 export default defineConfig({
   entry: entryPoints,
   dts: true,
   splitting: false,
   minify: false,
-  format: ['esm'],
+  format: ["esm"],
   bundle: false,
-  platform: 'node',
-})
+  platform: "node",
+});
