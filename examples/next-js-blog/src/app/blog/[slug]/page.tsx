@@ -20,12 +20,13 @@ export async function generateStaticParams() {
 }
 
 interface Props {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export default async function BlogDetail({ params }: Props) {
+export default async function BlogDetail(props: Props) {
+  const params = await props.params;
   const { slug } = params;
   const { data, content } = await getBlogDataFromSlug(slug);
   const parsed = await parseMarkdownToHTML(content, {
