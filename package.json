@@ -22,8 +22,9 @@
     "prettier": "^3.6.2",
     "tsup": "^7.2.0",
     "tsx": "^4.20.6",
-    "turbo": "^1.10.16",
+    "turbo": "^2.5.8",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
-  }
+  },
+  "packageManager": "pnpm@10.17.1"
 }
