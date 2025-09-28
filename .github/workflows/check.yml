@@ -16,6 +16,8 @@ jobs:
     name: Lint Check
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - uses: ./.github/actions/check-commons
       - name: Lint
         run: pnpm lint:check
@@ -24,6 +26,8 @@ jobs:
     name: Format Check
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - uses: ./.github/actions/check-commons
       - name: Format
         run: pnpm format:check
@@ -32,6 +36,8 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - uses: ./.github/actions/check-commons
       - name: Test
         run: pnpm test
@@ -40,6 +46,8 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - uses: ./.github/actions/check-commons
       - name: Build
         run: pnpm build
