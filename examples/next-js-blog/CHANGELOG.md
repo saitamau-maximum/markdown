@@ -1,5 +1,16 @@
 # next-js-blog
 
+## 0.1.6
+
+### Patch Changes
+
+- [#16](https://github.com/saitamau-maximum/markdown/pull/16) [`a2ac2f8`](https://github.com/saitamau-maximum/markdown/commit/a2ac2f86d48b65b20d86768b3a78679182154d3a) Thanks [@a01sa01to](https://github.com/a01sa01to)! - chore: 依存関係を整理
+  - 使われてない `remark-breaks`, `remark-extract-toc`, `remark-mermaidjs` を削除
+  - 各依存関係を最新に
+
+- Updated dependencies [[`a2ac2f8`](https://github.com/saitamau-maximum/markdown/commit/a2ac2f86d48b65b20d86768b3a78679182154d3a)]:
+  - @saitamau-maximum/markdown-processor@2.1.1
+
 ## 0.1.5
 
 ### Patch Changes

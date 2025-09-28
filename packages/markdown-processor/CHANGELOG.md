@@ -1,5 +1,13 @@
 # @saitamau-maximum/markdown-processor
 
+## 2.1.1
+
+### Patch Changes
+
+- [#16](https://github.com/saitamau-maximum/markdown/pull/16) [`a2ac2f8`](https://github.com/saitamau-maximum/markdown/commit/a2ac2f86d48b65b20d86768b3a78679182154d3a) Thanks [@a01sa01to](https://github.com/a01sa01to)! - chore: 依存関係を整理
+  - 使われてない `remark-breaks`, `remark-extract-toc`, `remark-mermaidjs` を削除
+  - 各依存関係を最新に
+
 ## 2.1.0
 
 ### Minor Changes
@@ -17,7 +25,6 @@
 ### Major Changes
 
 - [#9](https://github.com/saitamau-maximum/markdown/pull/9) [`c88f3b9`](https://github.com/saitamau-maximum/markdown/commit/c88f3b9c30251ef038f91b1a263e62a82c6bd7f6) Thanks [@sor4chi](https://github.com/sor4chi)! - Migrate from rehype-pretty-code to Shiki.js v3
-
   - Replace `rehype-pretty-code` with `@shikijs/rehype` for improved syntax highlighting performance
   - Implement custom `rehype-extract-toc` plugin to extract table of contents directly from HAST tree
   - Move slug generation from remark phase to rehype phase for better compatibility
