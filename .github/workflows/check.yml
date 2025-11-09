@@ -73,7 +73,7 @@ jobs:
         uses: ./.github/actions/check-commons
       - name: Build Package
         run: pnpm build
-        working-directory: packages/maximum-markdown
+        working-directory: packages/markdown-processor
       - name: Build
         run: pnpm build
         working-directory: examples/${{ matrix.example }}
