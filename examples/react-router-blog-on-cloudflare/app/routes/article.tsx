@@ -2,7 +2,7 @@ import { parseMarkdownToHTML } from "@saitamau-maximum/markdown-processor/server
 import { Link } from "react-router";
 
 import type { Route } from "./+types/article";
-
+import "./article.css"
 
 export async function loader({ params }: Route.LoaderArgs) {
   const allBlogData = import.meta.glob("/content/blog/*.md", { query: "?raw", import: "default" });
