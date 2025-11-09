@@ -1,18 +1,26 @@
+import { Link } from "react-router";
+
 import type { Route } from "./+types/home";
 
-import { Welcome } from "../welcome/welcome";
-
-export function meta() {
-  return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
-}
-
-export function loader({ context }: Route.LoaderArgs) {
-  return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
+export async function loader() {
+  const blogData = import.meta.glob("/content/blog/*.md", { query: "?raw", import: "default" });
+  return { blogData };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  return <Welcome message={loaderData.message} />;
+  const { blogData } = loaderData;
+
+  return (
+    <div>
+      <h1>This is a sample Blog</h1>
+      <ul>
+        {Object.keys(blogData).map((filepath) => {
+          const slug = filepath.replace("/content/blog/", "").replace(".md", "");
+          return (
+            <li key={slug}>
+              <Link to={`/blog/${slug}`}>{slug}</Link>
+            </li>)
+        })}
+      </ul>
+    </div>);
 }
