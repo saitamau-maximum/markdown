@@ -4,5 +4,5 @@
 
 ### Patch Changes
 
-- Updated dependencies [[`6b89146`](https://github.com/saitamau-maximum/markdown/commit/6b891465810af93f86febae443c431895c148aa0)]:
+- Updated dependencies [[`19b45a6`](https://github.com/saitamau-maximum/markdown/commit/19b45a615725c89517cf65074d3b01a8cbba47d1)]:
   - @saitamau-maximum/markdown-processor@2.2.0

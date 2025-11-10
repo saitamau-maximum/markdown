@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- [#24](https://github.com/saitamau-maximum/markdown/pull/24) [`6b89146`](https://github.com/saitamau-maximum/markdown/commit/6b891465810af93f86febae443c431895c148aa0) Thanks [@a01sa01to](https://github.com/a01sa01to)! - fix: engine を oniguruma から js regex に変更
+- [#23](https://github.com/saitamau-maximum/markdown/pull/23) [`19b45a6`](https://github.com/saitamau-maximum/markdown/commit/19b45a615725c89517cf65074d3b01a8cbba47d1) Thanks [@a01sa01to](https://github.com/a01sa01to)! - fix: engine を oniguruma から js regex に変更
 
 ## 2.1.1
 
