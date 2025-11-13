@@ -2,4 +2,4 @@
 "@saitamau-maximum/markdown-processor": patch
 ---
 
-fix: memorize Shiki highlighter instance
+fix: memoize Shiki highlighter instance
