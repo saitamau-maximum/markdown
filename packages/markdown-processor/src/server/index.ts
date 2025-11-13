@@ -39,14 +39,18 @@ export interface MdHtmlProcessorOption {
 
 const DEFAULT_THEME = "github-dark";
 
+let shikiHighlighter: HighlighterGeneric<BundledLanguage, BundledTheme> | null = null;
+
 const processor = async (option: MdHtmlProcessorOption = {}) => {
   const shikiOption = option.rehypeShikiOption ?? { theme: DEFAULT_THEME };
 
-  const shikiHighlighter = (await createHighlighterCore({
-    langs: bundledLanguagesInfo.map((lang) => lang.import),
-    themes: bundledThemesInfo.map((theme) => theme.import),
-    engine: createJavaScriptRegexEngine(),
-  })) as HighlighterGeneric<BundledLanguage, BundledTheme>;
+  if (!shikiHighlighter) {
+    shikiHighlighter = (await createHighlighterCore({
+      langs: bundledLanguagesInfo.map((lang) => lang.import),
+      themes: bundledThemesInfo.map((theme) => theme.import),
+      engine: createJavaScriptRegexEngine(),
+    })) as HighlighterGeneric<BundledLanguage, BundledTheme>;
+  }
 
   let baseProcessor = unified()
     .use(remarkParse) //                                               [md    -> mdast] Markdownをmdast(Markdown抽象構文木)に変換
