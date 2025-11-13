@@ -9,15 +9,6 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
-import {
-  BundledLanguage,
-  bundledLanguagesInfo,
-  BundledTheme,
-  bundledThemesInfo,
-  createHighlighterCore,
-  createJavaScriptRegexEngine,
-  HighlighterGeneric,
-} from "shiki";
 import { Plugin, unified } from "unified";
 
 import type { Root as HastRoot } from "hast";
@@ -28,6 +19,7 @@ import {
   remarkEmbedHandlers,
   RemarkEmbedOptions,
 } from "./remark-embed.js";
+import { getShikiHighlighter } from "./shiki.js";
 
 export type { TocItem };
 
@@ -39,19 +31,10 @@ export interface MdHtmlProcessorOption {
 
 const DEFAULT_THEME = "github-dark";
 
-let shikiHighlighter: HighlighterGeneric<BundledLanguage, BundledTheme> | null =
-  null;
-
 const processor = async (option: MdHtmlProcessorOption = {}) => {
   const shikiOption = option.rehypeShikiOption ?? { theme: DEFAULT_THEME };
 
-  if (!shikiHighlighter) {
-    shikiHighlighter = (await createHighlighterCore({
-      langs: bundledLanguagesInfo.map((lang) => lang.import),
-      themes: bundledThemesInfo.map((theme) => theme.import),
-      engine: createJavaScriptRegexEngine(),
-    })) as HighlighterGeneric<BundledLanguage, BundledTheme>;
-  }
+  const shikiHighlighter = await getShikiHighlighter();
 
   let baseProcessor = unified()
     .use(remarkParse) //                                               [md    -> mdast] Markdownをmdast(Markdown抽象構文木)に変換
