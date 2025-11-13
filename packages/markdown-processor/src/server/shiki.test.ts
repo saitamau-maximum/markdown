@@ -7,13 +7,11 @@ vi.mock("shiki", async (importActual) => {
   return {
     ...actual,
     // lang, theme はこのテストでは使わないし時間がかかるので省略
-    createHighlighterCore: vi
-      .fn()
-      .mockImplementation(() =>
-        actual.createHighlighterCore({
-          engine: actual.createJavaScriptRegexEngine(),
-        }),
-      ),
+    createHighlighterCore: vi.fn().mockImplementation(() =>
+      actual.createHighlighterCore({
+        engine: actual.createJavaScriptRegexEngine(),
+      }),
+    ),
   };
 });
 
