@@ -39,7 +39,8 @@ export interface MdHtmlProcessorOption {
 
 const DEFAULT_THEME = "github-dark";
 
-let shikiHighlighter: HighlighterGeneric<BundledLanguage, BundledTheme> | null = null;
+let shikiHighlighter: HighlighterGeneric<BundledLanguage, BundledTheme> | null =
+  null;
 
 const processor = async (option: MdHtmlProcessorOption = {}) => {
   const shikiOption = option.rehypeShikiOption ?? { theme: DEFAULT_THEME };
