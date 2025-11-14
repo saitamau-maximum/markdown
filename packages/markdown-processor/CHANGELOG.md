@@ -1,5 +1,11 @@
 # @saitamau-maximum/markdown-processor
 
+## 2.2.1
+
+### Patch Changes
+
+- [#26](https://github.com/saitamau-maximum/markdown/pull/26) [`c15a374`](https://github.com/saitamau-maximum/markdown/commit/c15a37428387a3b3e1ed54590ff32a1ed8791850) Thanks [@a01sa01to](https://github.com/a01sa01to)! - fix: memoize Shiki highlighter instance
+
 ## 2.2.0
 
 ### Minor Changes
