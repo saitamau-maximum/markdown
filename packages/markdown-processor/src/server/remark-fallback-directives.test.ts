@@ -33,13 +33,15 @@ baz:qux
 
     const result = processor.processSync(md).toString();
 
-    expect(result).toMatchInlineSnapshot(`"<p>:unknownTextDirective[foo]{bar=baz}</p>
+    expect(result).toMatchInlineSnapshot(
+      `"<p>:unknownTextDirective[foo]{bar=baz}</p>
 <p>::unknownLeafDirective[foo]{bar=baz}</p>
 <p>:::unknownContainerDirective[foo]{bar=baz}
 qux
 :::</p>
 <p>10:00 - 11:00 Meeting</p>
 <p>foo: bar</p>
-<p>baz:qux</p>"`.trim());
+<p>baz:qux</p>"`.trim(),
+    );
   });
 });
