@@ -90,4 +90,28 @@ const a = 1;
       '"<div class="remark-code-container"><button type="button" class="copy-button"></button><pre class="shiki github-dark" style="background-color:#24292e;color:#e1e4e8" tabindex="0"><code><span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> a</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> 1</span><span style="color:#E1E4E8">;</span></span></code></pre></div>"',
     );
   });
+
+  it("should handle directives correctly", async () => {
+    const md = `
+<!-- Correct directive -->
+::youtube[abcdefg]
+
+<!-- Incorrect directive -->
+10:00 - 11:00
+:foo
+::bar
+:::baz
+hogehoge
+:::
+`;
+    const { content } = await parseMarkdownToHTML(md);
+    expect(content)
+      .toMatchInlineSnapshot(`"<iframe width="800" height="450" src="https://www.youtube.com/embed/abcdefg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; width: 100%; aspect-ratio: 800/450; height: auto"></iframe>
+<p>10:00 - 11:00
+:foo</p>
+<p>::bar</p>
+<p>:::baz
+hogehoge
+:::</p>"`);
+  }, 100_000);
 });

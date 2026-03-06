@@ -19,6 +19,7 @@ import {
   remarkEmbedHandlers,
   RemarkEmbedOptions,
 } from "./remark-embed.js";
+import { remarkFallbackDirectives } from "./remark-fallback-directives.js";
 import { getShikiHighlighter } from "./shiki.js";
 
 export type { TocItem };
@@ -45,6 +46,7 @@ const processor = async (option: MdHtmlProcessorOption = {}) => {
     .use(remarkEmbed, {
       ...option.remarkEmbedOption,
     }) //                                                              [mdast -> mdast] youtubeなどの埋め込みdirectiveを変換
+    .use(remarkFallbackDirectives) //                                  [mdast -> mdast] 埋め込み以外のdirectiveを元のテキストに変換
     .use(remarkRehype, {
       handlers: {
         ...remarkEmbedHandlers,
