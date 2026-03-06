@@ -1,5 +1,11 @@
 # @saitamau-maximum/markdown-processor
 
+## 2.2.2
+
+### Patch Changes
+
+- [#28](https://github.com/saitamau-maximum/markdown/pull/28) [`98bf13c`](https://github.com/saitamau-maximum/markdown/commit/98bf13c9817b814872d11749d0ad285358d19d84) Thanks [@a01sa01to](https://github.com/a01sa01to)! - fix handling unknown directives
+
 ## 2.2.1
 
 ### Patch Changes
