@@ -10,7 +10,7 @@ export const getBlogPathList = async () => {
 };
 
 export const getBlogSlugFromPath = (path: string) => {
-  const [, slug] = path.match(/content\/blog\/(.+)\.md/) || [];
+  const [, slug] = path.replaceAll("\\", "/").match(/content\/blog\/(.+)\.md/) || [];
   return slug;
 };
 
