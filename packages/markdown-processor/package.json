@@ -33,14 +33,14 @@
   "devDependencies": {
     "@types/hast": "^3.0.4",
     "@types/mdast": "^4.0.4",
-    "glob": "^11.0.3",
+    "glob": "^13.0.6",
     "hast": "^1.0.0",
     "hastscript": "^9.0.1",
     "mdast-util-directive": "^3.1.0",
-    "mdast-util-to-hast": "^13.2.0",
+    "mdast-util-to-hast": "^13.2.1",
     "remark": "^15.0.1",
     "tsdown": "^0.21.10",
-    "unist-util-visit": "^5.0.0",
+    "unist-util-visit": "^5.1.0",
     "vfile": "^6.0.3"
   },
   "files": [
