@@ -6,7 +6,8 @@ import matter from "gray-matter";
 
 export const getBlogPathList = async () => {
   const paths = await glob("content/blog/*.md");
-  return paths.map((path) => join(process.cwd(), path));
+  // Encountered unexpected file in NFT list と出るので、 turbopackIgnore を付ける
+  return paths.map((path) => join(/*turbopackIgnore: true*/ process.cwd(), path));
 };
 
 export const getBlogSlugFromPath = (path: string) => {
