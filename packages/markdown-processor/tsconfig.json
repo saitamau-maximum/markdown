@@ -3,11 +3,7 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-    "types": [
-      "hast",
-      "mdast",
-      "vitest/globals"
-    ],
+    "types": ["hast", "mdast", "vitest/globals"],
     "jsx": "react-jsx",
     "declaration": true
   },

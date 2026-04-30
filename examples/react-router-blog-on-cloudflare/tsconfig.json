@@ -14,10 +14,6 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
-    "types": [
-      "react",
-      "react-dom",
-      "./worker-configuration.d.ts"
-    ]
+    "types": ["react", "react-dom", "./worker-configuration.d.ts"]
   }
 }
