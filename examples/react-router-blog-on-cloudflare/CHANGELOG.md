@@ -1,5 +1,12 @@
 # react-router-blog-on-cloudflare
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [[`1609bea`](https://github.com/saitamau-maximum/markdown/commit/1609bea34cc73b4ae82cc363f917150940ce1d1e)]:
+  - @saitamau-maximum/markdown-processor@2.2.3
+
 ## 0.0.4
 
 ### Patch Changes
