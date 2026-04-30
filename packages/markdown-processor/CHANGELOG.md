@@ -1,5 +1,11 @@
 # @saitamau-maximum/markdown-processor
 
+## 2.2.3
+
+### Patch Changes
+
+- [#30](https://github.com/saitamau-maximum/markdown/pull/30) [`1609bea`](https://github.com/saitamau-maximum/markdown/commit/1609bea34cc73b4ae82cc363f917150940ce1d1e) Thanks [@a01sa01to](https://github.com/a01sa01to)! - chore: GitHub Packages から npm に移行
+
 ## 2.2.2
 
 ### Patch Changes
