@@ -24,7 +24,6 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-unused-imports": "^4.2.0",
     "prettier": "^3.6.2",
-    "tsup": "^8.5.1",
     "tsx": "^4.21.0",
     "turbo": "^2.9.6",
     "typescript": "^6.0.3",

@@ -2,15 +2,13 @@
   "name": "@saitamau-maximum/markdown-processor",
   "version": "2.2.3",
   "private": false,
-  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "lint": "eslint --fix --ext .ts,.tsx src",
     "lint:check": "eslint --ext .ts,.tsx src",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
-    "clean": "rimraf dist",
-    "build": "npm run clean && tsup",
+    "build": "tsdown",
     "test": "vitest run"
   },
   "keywords": [],
@@ -41,7 +39,7 @@
     "mdast-util-directive": "^3.1.0",
     "mdast-util-to-hast": "^13.2.0",
     "remark": "^15.0.1",
-    "rimraf": "^6.0.1",
+    "tsdown": "^0.21.10",
     "unist-util-visit": "^5.0.0",
     "vfile": "^6.0.3"
   },
@@ -49,15 +47,19 @@
     "dist"
   ],
   "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
     "./server": {
-      "types": "./dist/server/index.d.ts",
-      "import": "./dist/server/index.js"
+      "types": "./dist/server/index.d.mts",
+      "import": "./dist/server/index.mjs"
     }
   },
   "typesVersions": {
     "*": {
       "server": [
-        "./dist/server"
+        "./dist/server/index.d.mts"
       ]
     }
   },
