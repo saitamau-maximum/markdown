@@ -1,4 +1,9 @@
 import { parseMarkdownToHTML } from "@saitamau-maximum/markdown-processor/server";
+import {
+  transformerNotationDiff,
+  transformerNotationHighlight,
+  transformerNotationFocus,
+} from "@shikijs/transformers";
 import { Link } from "react-router";
 
 import type { Route } from "./+types/article";
@@ -14,6 +19,11 @@ export async function loader({ params }: Route.LoaderArgs) {
       const parsed = await parseMarkdownToHTML(content, {
         rehypeShikiOption: {
           theme: "one-dark-pro",
+          transformers: [
+            transformerNotationDiff(),
+            transformerNotationHighlight(),
+            transformerNotationFocus(),
+          ],
         },
       });
       return { slug, content: parsed.content };
