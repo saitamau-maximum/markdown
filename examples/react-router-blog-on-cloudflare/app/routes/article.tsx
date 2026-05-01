@@ -30,6 +30,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/only-throw-error
   throw new Response("Not Found", { status: 404 });
 }
 

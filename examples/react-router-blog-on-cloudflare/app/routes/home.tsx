@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 import type { Route } from "./+types/home";
 
-export async function loader() {
+export function loader() {
   const blogData = import.meta.glob("/content/blog/*.md", { query: "?raw", import: "default" });
   return { blogData };
 }

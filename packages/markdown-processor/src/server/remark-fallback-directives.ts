@@ -28,11 +28,11 @@ export const remarkFallbackDirectives: Plugin<[], Root> = () => {
           textNode.value = rawString;
 
           // ディレクティブ特有のプロパティを削除
-          /* eslint-disable @typescript-eslint/no-explicit-any */
+          /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
           delete (textNode as any).name;
           delete (textNode as any).attributes;
           delete (textNode as any).children;
-          /* eslint-enable @typescript-eslint/no-explicit-any */
+          /* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
         }
       }
       if (node.type === "leafDirective" || node.type === "containerDirective") {
@@ -59,10 +59,10 @@ export const remarkFallbackDirectives: Plugin<[], Root> = () => {
           ];
 
           // ディレクティブ特有のプロパティを削除
-          /* eslint-disable @typescript-eslint/no-explicit-any */
+          /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
           delete (textNode as any).name;
           delete (textNode as any).attributes;
-          /* eslint-enable @typescript-eslint/no-explicit-any */
+          /* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
         }
       }
     });
