@@ -4,7 +4,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
-import { remarkEmbed, remarkEmbedHandlers } from "./remark-embed";
+import { remarkEmbed, remarkEmbedHandlers } from "./remark-embed.js";
 
 describe("remarkEmbed", () => {
   describe("youtube", () => {

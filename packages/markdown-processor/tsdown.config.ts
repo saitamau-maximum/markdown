@@ -1,5 +1,5 @@
 import { glob } from "glob";
-import { defineConfig } from "tsup";
+import { defineConfig } from "tsdown";
 
 const entryPoints = glob
   .sync("./src/**/*.+(ts|tsx|json)", {
@@ -13,6 +13,8 @@ export default defineConfig({
   splitting: false,
   minify: false,
   format: ["esm"],
-  bundle: false,
+  unbundle: true,
   platform: "node",
+  clean: true,
+  target: false,
 });

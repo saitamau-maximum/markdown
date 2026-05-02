@@ -3,7 +3,7 @@ import { visit } from "unist-util-visit";
 
 import type { Element, Node } from "hast";
 
-import { parseMarkdownToHTML } from ".";
+import { parseMarkdownToHTML } from "./index.js";
 
 describe("markdown-processor/server", () => {
   it("should work with tocProcessor", async () => {

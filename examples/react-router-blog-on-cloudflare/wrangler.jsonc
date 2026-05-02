@@ -1,9 +1,7 @@
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "react-router-blog-on-cloudflare",
-	"compatibility_date": "2025-04-04",
-	"compatibility_flags": [
-		"nodejs_compat"
-	],
-	"main": "./workers/app.ts",
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "react-router-blog-on-cloudflare",
+  "compatibility_date": "2025-04-04",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "./workers/app.ts",
 }

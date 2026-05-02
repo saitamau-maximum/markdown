@@ -1,48 +1,24 @@
-import { dirname, resolve } from "node:path";
+// @ts-check
+import { resolve } from "node:path";
 import { cwd } from "node:process";
-import { fileURLToPath } from "node:url";
-
-import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
-import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import tsParser from "@typescript-eslint/parser";
+import tseslint from "typescript-eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
-import unusedImports from "eslint-plugin-unused-imports";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
+import importPlugin from "eslint-plugin-import";
+import eslintConfigPrettier from "eslint-config-prettier/flat";
 
 const project = resolve(cwd(), "tsconfig.json");
 
-export default defineConfig([
+export default defineConfig(
+  js.configs.recommended,
+  importPlugin.flatConfigs.recommended,
+  importPlugin.flatConfigs.typescript,
+  eslintConfigPrettier,
+  tseslint.configs.recommendedTypeChecked,
   {
-    extends: fixupConfigRules(
-      compat.extends(
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:import/recommended",
-        "plugin:import/typescript",
-        "prettier",
-      ),
-    ),
-
-    plugins: {
-      "@typescript-eslint": fixupPluginRules(typescriptEslint),
-      "unused-imports": unusedImports,
-    },
-
     languageOptions: {
-      parser: tsParser,
-
       parserOptions: {
-        project,
+        projectService: true,
       },
     },
 
@@ -90,7 +66,18 @@ export default defineConfig([
           destructuredArrayIgnorePattern: "^_",
         },
       ],
+
+      // 正しく解決できないことがあるので無効化
+      "import/no-unresolved": "off",
     },
   },
-  globalIgnores(["**/node_modules/", "**/dist/"]),
-]);
+  globalIgnores([
+    "**/node_modules/",
+    "**/dist/",
+    "**/build/",
+    "**/.next/",
+    "**/out/",
+    "**/.react-router/",
+    "**/worker-configuration.d.ts",
+  ]),
+);

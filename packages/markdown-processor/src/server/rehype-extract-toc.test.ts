@@ -2,7 +2,7 @@ import { VFile } from "vfile";
 
 import type { Root } from "hast";
 
-import rehypeExtractToc from "./rehype-extract-toc";
+import rehypeExtractToc from "./rehype-extract-toc.js";
 
 describe("rehype-extract-toc", () => {
   it("should extract headings and create TOC", () => {
