@@ -5,12 +5,16 @@
   "type": "module",
   "scripts": {
     "build": "react-router build",
-    "cf-typegen": "wrangler types",
+    "typegen": "wrangler types && react-router typegen",
     "deploy": "pnpm run build && wrangler deploy",
     "dev": "react-router dev",
-    "postinstall": "pnpm run cf-typegen",
+    "postinstall": "pnpm run typegen",
     "preview": "pnpm run build && vite preview",
-    "typecheck": "npm run cf-typegen && react-router typegen && tsc -b"
+    "typecheck": "pnpm run typegen && tsc -b",
+    "lint": "eslint --fix .",
+    "lint:check": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@saitamau-maximum/markdown-processor": "workspace:*",
