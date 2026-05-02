@@ -23,7 +23,7 @@
       "@/*": ["./src/*"]
     },
     "target": "esnext",
-    "types": ["node", "react", "react-dom"]
+    "types": ["node"]
   },
   "include": [
     "next-env.d.ts",
