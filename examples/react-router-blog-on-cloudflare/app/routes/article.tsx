@@ -1,4 +1,4 @@
-import { parseMarkdownToHTML } from "@saitamau-maximum/markdown-processor/server";
+import { createMarkdownProcessorFull } from "@saitamau-maximum/markdown-processor/processor/full";
 import {
   transformerNotationDiff,
   transformerNotationHighlight,
@@ -8,6 +8,17 @@ import { Link } from "react-router";
 
 import type { Route } from "./+types/article";
 import "./article.css";
+
+const processorPromise = createMarkdownProcessorFull({
+  shikiOptions: {
+    theme: "one-dark-pro",
+    transformers: [
+      transformerNotationDiff(),
+      transformerNotationHighlight(),
+      transformerNotationFocus(),
+    ],
+  },
+});
 
 export async function loader({ params }: Route.LoaderArgs) {
   const allBlogData = import.meta.glob("/content/blog/*.md", {
@@ -19,16 +30,8 @@ export async function loader({ params }: Route.LoaderArgs) {
     const slug = path.replace("/content/blog/", "").replace(".md", "");
     if (slug === params.slug) {
       const content = (await allBlogData[path]()) as string;
-      const parsed = await parseMarkdownToHTML(content, {
-        rehypeShikiOption: {
-          theme: "one-dark-pro",
-          transformers: [
-            transformerNotationDiff(),
-            transformerNotationHighlight(),
-            transformerNotationFocus(),
-          ],
-        },
-      });
+      const processor = await processorPromise;
+      const parsed = await processor.parse(content);
       return { slug, content: parsed.content };
     }
   }
