@@ -5,12 +5,7 @@ import type { Element, Root } from "hast";
 
 import { SANITIZE_SCHEMA } from "./pipeline.js";
 
-// パッケージ内で実際に使う sanitize schema 単体の挙動を pin する。 pipeline
-// 全体の e2e 観測 (= full.test.ts) と独立に、 「sanitize layer がどんな
-// 不変条件を保つか」 をここで明確にする。 e2e が緑なのは別 layer の保護
-// (例えば `remarkRehype` の `allowDangerousHtml: false` が raw HTML を先に
-// drop していること) のおかげかもしれず、 sanitize の bug が混じっても
-// regression を検知できない ── そういう曖昧さを避ける目的の test。
+// sanitize schema 単体の不変条件を pin。 e2e が緑でも sanitize bug が別 layer (例: remarkRehype の `allowDangerousHtml: false` 由来 raw HTML drop) で偶然吸収されている可能性を排除するための独立 test。
 const wrap = (children: Element[]): Root => ({ type: "root", children });
 
 describe("SANITIZE_SCHEMA", () => {

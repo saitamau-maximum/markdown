@@ -17,10 +17,7 @@ export type {
   RemarkEmbedOptions,
 } from "./index.js";
 
-// multi-theme + `defaultColor: false` で shiki に `--shiki-dark` /
-// `--shiki-light` の CSS 変数を発行させ、 `transformerStyleToClass` で token
-// 単位の class にまとめる。 同じ DOM のまま `prefers-color-scheme` や class
-// toggle で palette を切り替えられる。
+// multi-theme + `defaultColor: false` にすると shiki が token 色を `--shiki-{dark,light}` の CSS 変数に逃がし、 `transformerStyleToClass` で class に集約される。 同じ DOM のまま `prefers-color-scheme` や class toggle で palette を切り替えられる。
 const DEFAULT_SHIKI_OPTIONS = {
   themes: { dark: "github-dark", light: "github-light" },
   defaultColor: false,

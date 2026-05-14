@@ -5,21 +5,10 @@ import type { Element, Node } from "hast";
 
 import { createMarkdownProcessorFull, type MarkdownProcessor } from "./full.js";
 
-// このファイルは `/processor/full` の **挙動** を end-to-end で確認する。
-// sanitize schema 単体の不変条件は `sanitize-schema.test.ts` 側で test。
-//
-// 注意: ここで「raw `<script>` が出力に出ない」 と書いても、 実際は
-// `remark-rehype` の `allowDangerousHtml: false` (default) が raw HTML を
-// 全部 drop しているのが効いており、 sanitize layer の test にはなって
-// いない。 そういう「実は別 layer の挙動を観測しているだけのテスト」 は
-// 重複として排除し、 ここでは pipeline 全体の出力が期待形であることだけを
-// 観測する。
+// pipeline 全体の出力を観測する e2e。 sanitize schema 単体の不変条件は `sanitize-schema.test.ts` 側で pin。
 
 describe("processor/full", () => {
-  // shiki full bundle の初回 init が CI runner では 5s を超えることがあり、
-  // 最初に走る test だけ default timeout を踏み抜いていた (highlighter は
-  // module-local に memoize されるので 2 回目以降は瞬時)。 ここで一括 warm-up
-  // 兼デフォルト processor を組み立て、 各 test が共有する。
+  // shiki full bundle の初回 init は CI runner で 5s を超えうる。 後続 test は module-local memoize で瞬時なので 1 度だけ warm-up する。
   let processor: MarkdownProcessor;
   beforeAll(async () => {
     processor = await createMarkdownProcessorFull();
@@ -117,9 +106,7 @@ hogehoge
   });
 
   describe("sanitize layer の挙動 (markdown → HTML 経由で観測)", () => {
-    // ここは「sanitize layer が markdown 入力に対して効いていること」 を
-    // 確かめる test。 schema 単体の挙動は `sanitize-schema.test.ts` で
-    // 独立に pin している。
+    // markdown 入力で sanitize が効くことを観測する。 schema 単体の挙動は `sanitize-schema.test.ts` 側で pin。
     it("markdown link 構文の `javascript:` URL を drop する", async () => {
       const { content } = await processor.parse("[click](javascript:alert(1))");
       expect(content).not.toMatch(/href="\s*javascript:/i);
@@ -151,12 +138,7 @@ hogehoge
     });
   });
 
-  // 「`::youtube[id]` 由来以外で iframe が結果に紛れ込まない」 という
-  // 構造的不変条件は、 markdown 入力経由ではこの 1 ケースで十分:
-  // pipeline の手前 (remarkRehype) が raw HTML を全 drop するため、 source
-  // に直書きされた `<iframe>` は到達不能。 sanitize layer の側でも iframe
-  // を allow していないことは `sanitize-schema.test.ts` で別途 pin して
-  // いる。
+  // remarkRehype の `allowDangerousHtml: false` が raw HTML を先に drop するので、 markdown source に直書きの `<iframe>` は到達不能。 sanitize 側でも iframe は allow しないことを `sanitize-schema.test.ts` で別途 pin している。
   it("markdown source に直書きされた `<iframe>` は出力に残らない", async () => {
     const { content } = await processor.parse(
       '<iframe src="https://evil.example/"></iframe>\n\nhello',

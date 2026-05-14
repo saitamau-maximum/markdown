@@ -11,12 +11,7 @@ import {
   type YoutubeEmbed,
 } from "./remark-embed.js";
 
-// `remarkEmbedHandlers.youtube` が emit した text placeholder を本物の
-// `<iframe>` に組み直す。 `rehype-sanitize` の **後** に動くので、 ここで
-// 出力する iframe は schema を一切経由しない (= 拡張ゼロ) と同時に、
-// `vfile.data.maximumEmbeds` への entry は handler 経由でしか発生しないため、
-// attacker が markdown 本文に placeholder 文字列を書いても reattach されない
-// (`store.get(value)` が undefined になるので元の text のまま残る)。
+// sanitize 後段で text placeholder を `<iframe>` に組み直す。 schema を一切経由しない (= 拡張ゼロ)。 偽装防御は `store.get(value)` の存在チェックで担保 — attacker が markdown に同じ文字列を書いても store に entry が無いので素通り。
 
 const buildYoutubeIframe = (embed: YoutubeEmbed): Element =>
   h(

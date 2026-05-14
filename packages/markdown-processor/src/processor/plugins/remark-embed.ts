@@ -31,15 +31,7 @@ export interface RemarkEmbedOptions {
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 450;
 
-// 拡張 directive のうち、 hast に直接 `<iframe>` を出すと `rehype-sanitize`
-// (defaultSchema) で必ず drop されるので、 handler は **text placeholder** を
-// 1 つだけ emit する。 実際の iframe は sanitize 後段で `reattachEmbeds`
-// plugin が `vfile.data.maximumEmbeds` から取り出して組み立てる。
-//
-// この placeholder + store のペアは、 attacker が markdown 本文に同じ
-// placeholder 文字列を書いても reattach されない (`store.has(value)` で確認
-// する) という偽装防御も兼ねる ── `store` への entry を作れるのはこの
-// handler だけだから。
+// `<iframe>` を直接出すと defaultSchema で drop されるので、 handler は text placeholder + `vfile.data.maximumEmbeds` への metadata 退避だけ行い、 sanitize 後段の `reattachEmbeds` が本物の iframe に組み直す。
 export const PLACEHOLDER_PREFIX = "__MAXIMUM_EMBED_";
 export const PLACEHOLDER_SUFFIX = "__";
 
@@ -59,12 +51,8 @@ interface VFileLike {
 }
 
 const getOrCreateStore = (file: VFileLike | undefined): EmbedStore => {
-  if (!file) {
-    // file が無い場合 (= toHast を mdast-util-to-hast を直叩きしたケース)
-    // は in-memory な store を返すが、 reattach 側からは参照できないので
-    // 単に動かない。 unified 経由なら必ず file がある。
-    return new Map();
-  }
+  // file が無いのは mdast-util-to-hast を unified を介さず直叩きしたケース。 reattach 側から参照できないので何もできないが crash させない為に空 store を返す。
+  if (!file) return new Map();
   let store = file.data[STORE_KEY] as EmbedStore | undefined;
   if (!store) {
     store = new Map();
@@ -79,9 +67,7 @@ export const getEmbedStore = (
   return file?.data?.[STORE_KEY] as EmbedStore | undefined;
 };
 
-// state.options.file 経由で vfile を取り出す helper。 remark-rehype は内部で
-// `toHast(tree, { file, ...options })` を呼ぶので、 unified pipeline 経由なら
-// 必ず file が乗っている。
+// remark-rehype は内部で `toHast(tree, { file, ... })` を呼ぶので、 unified 経由なら state.options.file から vfile が取れる。
 const fileOf = (state: {
   options: { file?: { data: Record<string, unknown> } | null };
 }): VFileLike | undefined => state.options.file ?? undefined;
