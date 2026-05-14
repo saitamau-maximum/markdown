@@ -25,7 +25,7 @@ describe("processor/full", () => {
     processor = await createMarkdownProcessorFull();
   }, 30_000);
 
-  it("TOC を heading の入れ子に従って構築する", async () => {
+  it("TOC を heading の入れ子に従って構築する (id は sanitize の clobber-prefix 込み)", async () => {
     const md = `
 # Title
 ## SubTitle
@@ -36,17 +36,17 @@ describe("processor/full", () => {
       {
         depth: 1,
         value: "Title",
-        data: { id: "title" },
+        data: { id: "user-content-title" },
         children: [
           {
             depth: 2,
             value: "SubTitle",
-            data: { id: "subtitle" },
+            data: { id: "user-content-subtitle" },
             children: [
               {
                 depth: 3,
                 value: "SubSubTitle",
-                data: { id: "subsubtitle" },
+                data: { id: "user-content-subsubtitle" },
               },
             ],
           },
@@ -182,7 +182,7 @@ const x = 1;
     const { content, toc } = await processor.parse(md);
 
     expect(content).toMatchInlineSnapshot(`
-      "<h1 id="hello-x2x2x2">Hello <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">x^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></h1>
+      "<h1 id="user-content-hello-x2">Hello <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">x^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></h1>
       <p><a href="https://example.com">ok</a>
       <a>xss</a></p>
       <iframe width="800" height="450" src="https://www.youtube.com/embed/abcdefg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; width: 100%; aspect-ratio: 800/450; height: auto"></iframe>

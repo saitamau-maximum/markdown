@@ -4,7 +4,7 @@
 
 3.0 redesign — 互換 shim 無しの factory only / shiki class mode / sanitize default-on with handler-side placeholder
 
-互換性は保持していません。 consumer 側で以下の書き換えが必要 (詳細は README の "Migrating from v2"):
+互換性は保持していません。 consumer 側で以下の書き換えが必要 (詳細は [docs/migration-v3.md](../docs/migration-v3.md)):
 
 ```diff
 - import { parseMarkdownToHTML } from "@saitamau-maximum/markdown-processor/server";
@@ -22,6 +22,7 @@
 - option key 名を整理: `rehypeShikiOption` → `shikiOptions`。
 - shiki に `@shikijs/transformers` の `transformerStyleToClass` を default 適用。 token 色は `__maximum_md_*` の class に集約され、 stylesheet は `processor.getStylesheet()` で取得する。 これに伴い default theme 設定が single `github-dark` から multi-theme (`github-dark` / `github-light` + `defaultColor: false`) に変更 ── `prefers-color-scheme` 等での palette 切り替えが pageload 不要で効くようになる。
 - `rehype-sanitize` を default で pipeline に挟む (untrust 前提)。 schema は `hast-util-sanitize` の `defaultSchema` + `div.className` のみ拡張。 `[xss](javascript:...)` のような markdown 構文 XSS や raw HTML は確実に drop される。
+- heading `id` が `user-content-` prefix 付きになる (`#heading` → `#user-content-heading`)。 sanitize の clobber-prefix 機構を活かす為に `rehype-slug` を sanitize の前段に置いた結果で、 GitHub README と同じ振る舞い。 既存の TOC anchor link が prefix 込みに変わるので consumer 側で更新が要る。
 
 **実装メモ**
 

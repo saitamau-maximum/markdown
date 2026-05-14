@@ -115,11 +115,18 @@ export const buildProcessor = ({
     .use(remarkRehype, { handlers: { ...remarkEmbedHandlers } })
     // sanitize は markdown 由来の hast (untrusted) と、 ここから下の
     // パッケージ内部の rehype ステップ (trusted) の境界に挿す。
+    // slug は sanitize の **前段** に置く。 sanitize の defaultSchema は
+    // `id` 属性を `clobberPrefix: "user-content-"` で前置する仕様で、 DOM
+    // clobbering 系の事故 (例: `# constructor` から生成された `id="constructor"`
+    // が `document.constructor` を上書き) を防ぐ機構が組まれている。 slug を
+    // 後段に置くと untrust な heading text 由来の id がこの保護を bypass
+    // するので、 sanitize に喰わせる位置に揃える。 結果として TOC / 描画
+    // HTML の heading id は `user-content-<slug>` 形式 (GitHub README と同じ)。
+    .use(rehypeSlug)
     .use(rehypeSanitize, SANITIZE_SCHEMA)
     // round-trip の後半: placeholder から iframe を組み直す。
     .use(reattachEmbeds)
     .use(rehypeKatex)
-    .use(rehypeSlug)
     .use(rehypeShikiFromHighlighter, highlighter, {
       ...shikiOptions,
       transformers: mergedTransformers,
