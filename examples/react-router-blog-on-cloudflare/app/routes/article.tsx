@@ -32,7 +32,7 @@ export async function loader({ params }: Route.LoaderArgs) {
       const content = (await allBlogData[path]()) as string;
       const processor = await processorPromise;
       const parsed = await processor.parse(content);
-      return { slug, content: parsed.content };
+      return { slug, content: parsed.content, shikiCss: processor.getStylesheet() };
     }
   }
 
@@ -41,12 +41,13 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export default function Article({ loaderData }: Route.ComponentProps) {
-  const { content, slug } = loaderData;
+  const { content, shikiCss, slug } = loaderData;
 
   return (
     <div>
       {/* TODO: title */}
       <h1>{slug}</h1>
+      <style dangerouslySetInnerHTML={{ __html: shikiCss }} />
       <div dangerouslySetInnerHTML={{ __html: content }} />
       <Link to="/">Back to Home</Link>
     </div>
