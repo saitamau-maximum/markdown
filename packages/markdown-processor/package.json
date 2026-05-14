@@ -1,6 +1,6 @@
 {
   "name": "@saitamau-maximum/markdown-processor",
-  "version": "2.2.4",
+  "version": "3.0.0",
   "private": false,
   "type": "module",
   "scripts": {
