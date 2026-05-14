@@ -33,8 +33,8 @@ const DEFAULT_HEIGHT = 450;
 
 // 拡張 directive のうち、 hast に直接 `<iframe>` を出すと `rehype-sanitize`
 // (defaultSchema) で必ず drop されるので、 handler は **text placeholder** を
-// 1 つだけ emit する。 実際の iframe は sanitize 後段で `rehype-embed-youtube`
-// (reattach plugin) が `vfile.data.maximumEmbeds` から取り出して組み立てる。
+// 1 つだけ emit する。 実際の iframe は sanitize 後段で `reattachEmbeds`
+// plugin が `vfile.data.maximumEmbeds` から取り出して組み立てる。
 //
 // この placeholder + store のペアは、 attacker が markdown 本文に同じ
 // placeholder 文字列を書いても reattach されない (`store.has(value)` で確認
