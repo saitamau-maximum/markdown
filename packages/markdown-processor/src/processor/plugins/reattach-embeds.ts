@@ -11,7 +11,9 @@ import {
   type YoutubeEmbed,
 } from "./remark-embed.js";
 
-// sanitize 後段で text placeholder を `<iframe>` に組み直す。 schema を一切経由しない (= 拡張ゼロ)。 偽装防御は `store.get(value)` の存在チェックで担保 — attacker が markdown に同じ文字列を書いても store に entry が無いので素通り。
+// sanitize 後段で text placeholder を `<iframe>` に組み直す。
+// schema を一切経由しない (= 拡張ゼロ)。
+// 偽装防御は `store.get(value)` の存在チェックで担保 — attacker が markdown に同じ文字列を書いても store に entry が無いので素通り。
 
 const buildYoutubeIframe = (embed: YoutubeEmbed): Element =>
   h(

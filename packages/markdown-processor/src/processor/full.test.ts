@@ -5,10 +5,12 @@ import type { Element, Node } from "hast";
 
 import { createMarkdownProcessorFull, type MarkdownProcessor } from "./full.js";
 
-// pipeline 全体の出力を観測する e2e。 sanitize schema 単体の不変条件は `sanitize-schema.test.ts` 側で pin。
+// pipeline 全体の出力を観測する e2e。
+// sanitize schema 単体の不変条件は `sanitize-schema.test.ts` 側で pin。
 
 describe("processor/full", () => {
-  // shiki full bundle の初回 init は CI runner で 5s を超えうる。 後続 test は module-local memoize で瞬時なので 1 度だけ warm-up する。
+  // shiki full bundle の初回 init は CI runner で 5s を超えうる。
+  // 後続 test は module-local memoize で瞬時なので 1 度だけ warm-up する。
   let processor: MarkdownProcessor;
   beforeAll(async () => {
     processor = await createMarkdownProcessorFull();
@@ -106,7 +108,8 @@ hogehoge
   });
 
   describe("sanitize layer の挙動 (markdown → HTML 経由で観測)", () => {
-    // markdown 入力で sanitize が効くことを観測する。 schema 単体の挙動は `sanitize-schema.test.ts` 側で pin。
+    // markdown 入力で sanitize が効くことを観測する。
+    // schema 単体の挙動は `sanitize-schema.test.ts` 側で pin。
     it("markdown link 構文の `javascript:` URL を drop する", async () => {
       const { content } = await processor.parse("[click](javascript:alert(1))");
       expect(content).not.toMatch(/href="\s*javascript:/i);
@@ -138,7 +141,8 @@ hogehoge
     });
   });
 
-  // remarkRehype の `allowDangerousHtml: false` が raw HTML を先に drop するので、 markdown source に直書きの `<iframe>` は到達不能。 sanitize 側でも iframe は allow しないことを `sanitize-schema.test.ts` で別途 pin している。
+  // remarkRehype の `allowDangerousHtml: false` が raw HTML を先に drop するので、 markdown source に直書きの `<iframe>` は到達不能。
+  // sanitize 側でも iframe は allow しないことを `sanitize-schema.test.ts` で別途 pin している。
   it("markdown source に直書きされた `<iframe>` は出力に残らない", async () => {
     const { content } = await processor.parse(
       '<iframe src="https://evil.example/"></iframe>\n\nhello',

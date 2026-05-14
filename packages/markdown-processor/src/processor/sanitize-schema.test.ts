@@ -5,7 +5,8 @@ import type { Element, Root } from "hast";
 
 import { SANITIZE_SCHEMA } from "./pipeline.js";
 
-// sanitize schema 単体の不変条件を pin。 e2e が緑でも sanitize bug が別 layer (例: remarkRehype の `allowDangerousHtml: false` 由来 raw HTML drop) で偶然吸収されている可能性を排除するための独立 test。
+// sanitize schema 単体の不変条件を pin。
+// e2e が緑でも sanitize bug が別 layer (例: remarkRehype の `allowDangerousHtml: false` 由来 raw HTML drop) で偶然吸収されている可能性を排除するための独立 test。
 const wrap = (children: Element[]): Root => ({ type: "root", children });
 
 describe("SANITIZE_SCHEMA", () => {

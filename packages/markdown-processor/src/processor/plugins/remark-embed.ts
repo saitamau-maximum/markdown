@@ -51,7 +51,8 @@ interface VFileLike {
 }
 
 const getOrCreateStore = (file: VFileLike | undefined): EmbedStore => {
-  // file が無いのは mdast-util-to-hast を unified を介さず直叩きしたケース。 reattach 側から参照できないので何もできないが crash させない為に空 store を返す。
+  // file が無いのは mdast-util-to-hast を unified を介さず直叩きしたケース。
+  // reattach 側から参照できないので何もできないが crash させない為に空 store を返す。
   if (!file) return new Map();
   let store = file.data[STORE_KEY] as EmbedStore | undefined;
   if (!store) {

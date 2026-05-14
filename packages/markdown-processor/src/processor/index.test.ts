@@ -13,9 +13,8 @@ describe("processor (factory)", () => {
   let highlighter: HighlighterCore;
 
   beforeAll(async () => {
-    // factory test では shiki bundle 全 load のコストを払いたくないので
-    // 最小構成の highlighter を用意する。 createMarkdownProcessor 自体は
-    // preset に依存しない設計。
+    // factory test では shiki bundle 全 load のコストを払いたくないので最小構成の highlighter を用意する。
+    // createMarkdownProcessor 自体は preset に依存しない設計。
     const { createHighlighter } = await import("shiki/bundle/web");
     highlighter = await createHighlighter({
       langs: ["typescript"],
@@ -30,9 +29,8 @@ describe("processor (factory)", () => {
     });
     const { content } = await processor.parse("```ts\nconst x = 1;\n```");
     expect(content).toContain("__maximum_md_");
-    // shiki が token ごとに出す <span style="color:..."> は class に
-    // 置き換わるはず。 token 単位の class 発行を引き出すのは
-    // multi-theme + defaultColor:false の組み合わせ。
+    // shiki が token ごとに出す <span style="color:..."> は class に置き換わるはず。
+    // token 単位の class 発行を引き出すのは multi-theme + defaultColor:false の組み合わせ。
     expect(content).not.toMatch(/<span[^>]*style="color:/);
   });
 

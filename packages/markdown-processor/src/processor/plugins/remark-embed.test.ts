@@ -88,12 +88,9 @@ describe("remarkEmbed", () => {
       expect(result).toContain('height="450"');
     });
 
-    // `reattachEmbeds` の偽装防御 ── markdown 本文に placeholder と同じ
-    // text を attacker が書いても、 vfile.data の embedStore に登録されて
-    // いない値は `store.get(value)` が undefined を返すため、 iframe には
-    // 化けない。 placeholder 自体は markdown の標準構文 (`__...__` が bold)
-    // で消費されるなどの加工は受けるが、 そこは sanitize レイヤの責任で、
-    // この test の関心事ではない。
+    // `reattachEmbeds` の偽装防御
+    // markdown 本文に placeholder と同じ text を attacker が書いても、 vfile.data の embedStore に登録されていない値は `store.get(value)` が undefined を返すため、 iframe には化けない。
+    // placeholder 自体は markdown の標準構文 (`__...__` が bold) で消費されるなどの加工は受けるが、 そこは sanitize レイヤの責任で、この test の関心事ではない。
     it("attacker が placeholder と同じ text を markdown に書いても iframe にならない", () => {
       const processor = unified()
         .use(remarkParse)

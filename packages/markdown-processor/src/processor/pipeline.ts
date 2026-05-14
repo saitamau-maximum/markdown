@@ -28,7 +28,8 @@ import { remarkFallbackDirectives } from "./plugins/remark-fallback-directives.j
 
 export type { TocItem };
 
-// defaultSchema からの差分は意図的に 1 行 (`div.className`) に閉じている。 拡張を足したくなったら sanitize の後段に追い出せないかをまず検討する。
+// defaultSchema からの差分は意図的に 1 行 (`div.className`) に閉じている。
+// 拡張を足したくなったら sanitize の後段に追い出せないかをまず検討する。
 export const SANITIZE_SCHEMA: Schema = {
   ...defaultSchema,
   attributes: {
@@ -39,11 +40,13 @@ export const SANITIZE_SCHEMA: Schema = {
 
 export interface PipelineOptions {
   highlighter: HighlighterCore;
-  // single `theme` / multi `themes` のどちらも受けたいので RehypeShikiOptions をそのまま使う。 TS の素の Omit は discriminated union を潰すため transformers は内部で merge する。
+  // single `theme` / multi `themes` のどちらも受けたいので RehypeShikiOptions をそのまま使う。
+  // TS の素の Omit は discriminated union を潰すため transformers は内部で merge する。
   shikiOptions?: RehypeShikiOptions;
   shikiTransformers?: ShikiTransformer[];
   remarkEmbedOption?: RemarkEmbedOptions;
-  // sanitize の **後段** で動く追加 rehype plugin (consumer 側拡張)。 untrusted markdown 経由でここに raw HTML を流すと sanitize を通らないので、 consumer 責任で trusted な処理のみ載せる。
+  // sanitize の **後段** で動く追加 rehype plugin (consumer 側拡張)。
+  // untrusted markdown 経由でここに raw HTML を流すと sanitize を通らないので、 consumer 責任で trusted な処理のみ載せる。
   rehypePlugins?: Pluggable[];
 }
 
@@ -68,8 +71,11 @@ export const buildProcessor = ({
     .use(remarkEmbed, { ...remarkEmbedOption })
     .use(remarkFallbackDirectives)
     .use(remarkRehype, { handlers: { ...remarkEmbedHandlers } })
-    // slug は sanitize の前段に置く。 defaultSchema の `clobberPrefix: "user-content-"` が untrust な heading text 由来の id (例えば `# constructor`) を必ず前置するようにする為。 GitHub README と同じ振る舞い。
+    // slug は sanitize の前段に置く。
+    // defaultSchema の `clobberPrefix: "user-content-"` が untrust な heading text 由来の id (例えば `# constructor`) を必ず前置するようにする為。
+    // GitHub README と同じ振る舞い。
     .use(rehypeSlug)
+    // sanitize は markdown 由来の untrusted hast と、 ここから下のパッケージ内部 (trusted) の境界に挿す。
     .use(rehypeSanitize, SANITIZE_SCHEMA)
     // sanitize 後段: placeholder text を本物の iframe に組み直す (handler 段で退避した metadata から)。
     .use(reattachEmbeds)
