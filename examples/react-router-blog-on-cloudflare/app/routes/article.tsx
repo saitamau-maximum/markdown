@@ -32,7 +32,11 @@ export async function loader({ params }: Route.LoaderArgs) {
       const content = (await allBlogData[path]()) as string;
       const processor = await processorPromise;
       const parsed = await processor.parse(content);
-      return { slug, content: parsed.content, shikiCss: processor.getStylesheet() };
+      return {
+        slug,
+        content: parsed.content,
+        shikiCss: processor.getStylesheet(),
+      };
     }
   }
 
