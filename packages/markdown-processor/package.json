@@ -16,9 +16,12 @@
   "license": "MIT",
   "dependencies": {
     "@shikijs/rehype": "^4.0.2",
+    "@shikijs/transformers": "^4.0.2",
     "hast-util-heading-rank": "^3.0.0",
     "hast-util-to-string": "^3.0.1",
+    "hastscript": "^9.0.1",
     "rehype-katex": "^7.0.1",
+    "rehype-sanitize": "^6.0.0",
     "rehype-slug": "^6.0.0",
     "rehype-stringify": "^10.0.1",
     "remark-directive": "^4.0.0",
@@ -28,19 +31,19 @@
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "shiki": "^4.0.2",
-    "unified": "^11.0.5"
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "@types/hast": "^3.0.4",
     "@types/mdast": "^4.0.4",
     "glob": "^13.0.6",
     "hast": "^1.0.0",
-    "hastscript": "^9.0.1",
+    "hast-util-sanitize": "^5.0.2",
     "mdast-util-directive": "^3.1.0",
     "mdast-util-to-hast": "^13.2.1",
     "remark": "^15.0.1",
     "tsdown": "^0.21.10",
-    "unist-util-visit": "^5.1.0",
     "vfile": "^6.0.3"
   },
   "files": [
@@ -51,15 +54,29 @@
       "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs"
     },
-    "./server": {
-      "types": "./dist/server/index.d.mts",
-      "import": "./dist/server/index.mjs"
+    "./processor": {
+      "types": "./dist/processor/index.d.mts",
+      "import": "./dist/processor/index.mjs"
+    },
+    "./processor/full": {
+      "types": "./dist/processor/full.d.mts",
+      "import": "./dist/processor/full.mjs"
+    },
+    "./processor/web": {
+      "types": "./dist/processor/web.d.mts",
+      "import": "./dist/processor/web.mjs"
     }
   },
   "typesVersions": {
     "*": {
-      "server": [
-        "./dist/server/index.d.mts"
+      "processor": [
+        "./dist/processor/index.d.mts"
+      ],
+      "processor/full": [
+        "./dist/processor/full.d.mts"
+      ],
+      "processor/web": [
+        "./dist/processor/web.d.mts"
       ]
     }
   },
