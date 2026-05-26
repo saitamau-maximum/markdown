@@ -65,7 +65,8 @@ const { content, toc } = await processor.parse(md);
 
 ### Highlight stylesheet
 
-`v3` runs shiki's [`transformerStyleToClass`](https://shiki.style/packages/transformers#transformerstyletoclass) by default — token colours land in `__maximum_md_*` classes. multi-theme + `defaultColor: false` (= preset の default) で `--shiki-dark` / `--shiki-light` CSS 変数が出るので、 同じ DOM のまま `prefers-color-scheme` / class toggle で palette を切り替えられる。
+`v3` では shiki の [`transformerStyleToClass`](https://shiki.style/packages/transformers#transformerstyletoclass) がデフォルトで動いており、トークンカラーは `__maximum_md_*` クラスに格納される。
+multi-theme + `defaultColor: false` (= preset の default) で `--shiki-dark` / `--shiki-light` CSS 変数が出るので、 同じ DOM のまま `prefers-color-scheme` / class toggle で palette を切り替えられる。
 
 stylesheet は `processor.getStylesheet()` で取得して `<style>` / `<link>` で配信する:
 
