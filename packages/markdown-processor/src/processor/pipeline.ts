@@ -1,6 +1,7 @@
 import { type RehypeShikiOptions } from "@shikijs/rehype";
 import rehypeShikiFromHighlighter from "@shikijs/rehype/core";
 import rehypeKatex from "rehype-katex";
+import rehypeRaw from "rehype-raw";
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
@@ -12,6 +13,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { type Plugin, type Pluggable, unified } from "unified";
 
+import type { Root } from "hast";
 import type { Schema } from "hast-util-sanitize";
 import type { HighlighterCore, ShikiTransformer } from "shiki";
 
@@ -45,6 +47,8 @@ export interface PipelineOptions {
   shikiOptions?: RehypeShikiOptions;
   shikiTransformers?: ShikiTransformer[];
   remarkEmbedOption?: RemarkEmbedOptions;
+  // 生の HTML は既定で破棄する。有効時は解析してから sanitize する。
+  rawHtml?: boolean;
   // sanitize の **後段** で動く追加 rehype plugin (consumer 側拡張)。
   // untrusted markdown 経由でここに raw HTML を流すと sanitize を通らないので、 consumer 責任で trusted な処理のみ載せる。
   rehypePlugins?: Pluggable[];
@@ -55,6 +59,7 @@ export const buildProcessor = ({
   shikiOptions,
   shikiTransformers,
   remarkEmbedOption,
+  rawHtml = false,
   rehypePlugins,
 }: PipelineOptions) => {
   const mergedTransformers = [
@@ -70,7 +75,16 @@ export const buildProcessor = ({
     .use(remarkCodeTitle)
     .use(remarkEmbed, { ...remarkEmbedOption })
     .use(remarkFallbackDirectives)
-    .use(remarkRehype, { handlers: { ...remarkEmbedHandlers } })
+    .use(remarkRehype, {
+      allowDangerousHtml: rawHtml,
+      handlers: { ...remarkEmbedHandlers },
+    });
+
+  if (rawHtml) {
+    p = p.use(rehypeRaw);
+  }
+
+  p = p
     // slug は sanitize の前段に置く。
     // defaultSchema の `clobberPrefix: "user-content-"` が untrust な heading text 由来の id (例えば `# constructor`) を必ず前置するようにする為。
     // GitHub README と同じ振る舞い。
@@ -83,17 +97,20 @@ export const buildProcessor = ({
     .use(rehypeShikiFromHighlighter, highlighter, {
       ...shikiOptions,
       transformers: mergedTransformers,
-    })
+    } as RehypeShikiOptions)
     .use(rehypeExtractToc);
 
   if (rehypePlugins) {
     for (const entry of rehypePlugins) {
       // unified の `.use([fn, opts])` 形式は 1 引数 Array を PluggableList と誤認するので tuple は自前で spread する。
       if (Array.isArray(entry)) {
-        const [pluginFn, ...args] = entry as [Plugin<unknown[]>, ...unknown[]];
+        const [pluginFn, ...args] = entry as [
+          Plugin<unknown[], Root>,
+          ...unknown[],
+        ];
         p = p.use(pluginFn, ...args);
       } else {
-        p = p.use(entry as Plugin<unknown[]>);
+        p = p.use(entry as Plugin<unknown[], Root>);
       }
     }
   }

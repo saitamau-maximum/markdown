@@ -22,6 +22,8 @@ export interface MarkdownProcessorOption {
   /** transformerStyleToClass が発行する class 名の prefix。 default: `__maximum_md_`。 */
   classPrefix?: string;
   remarkEmbedOption?: RemarkEmbedOptions;
+  /** 生の HTML を解析してからサニタイズする。既定は false。 */
+  rawHtml?: boolean;
   rehypePlugins?: Pluggable[];
 }
 
@@ -43,6 +45,7 @@ export const createMarkdownProcessor = (
     shikiOptions: option.shikiOptions,
     shikiTransformers: [styleToClass, ...(option.shikiTransformers ?? [])],
     remarkEmbedOption: option.remarkEmbedOption,
+    rawHtml: option.rawHtml,
     rehypePlugins: option.rehypePlugins,
   });
 

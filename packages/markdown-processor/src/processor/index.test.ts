@@ -65,4 +65,65 @@ describe("processor (factory)", () => {
     const { content } = await processor.parse("[x](javascript:alert(1))");
     expect(content).not.toMatch(/href="\s*javascript:/i);
   });
+
+  describe("raw HTML (opt-in)", () => {
+    const details = `<details open>
+<summary>補足</summary>
+
+**太字**
+
+</details>`;
+
+    it.each([undefined, false])(
+      "raw HTML is dropped when rawHtml is %s",
+      async (rawHtml) => {
+        const processor = createMarkdownProcessor({
+          highlighter,
+          shikiOptions: MULTI_THEME,
+          rawHtml,
+        });
+        const { content } = await processor.parse(details);
+        expect(content).not.toContain("<details");
+        expect(content).not.toContain("<summary");
+        expect(content).toContain("<strong>太字</strong>");
+      },
+    );
+
+    it("supports Markdown inside details", async () => {
+      const processor = createMarkdownProcessor({
+        highlighter,
+        shikiOptions: MULTI_THEME,
+        rawHtml: true,
+      });
+      const { content } = await processor.parse(details);
+      expect(content).toContain("<details open>");
+      expect(content).toContain("<summary>補足</summary>");
+      expect(content).toContain("<strong>太字</strong>");
+    });
+
+    it("sanitizes parsed HTML including scripts, iframes, event handlers and unsafe URLs", async () => {
+      const processor = createMarkdownProcessor({
+        highlighter,
+        shikiOptions: MULTI_THEME,
+        rawHtml: true,
+      });
+      const { content } =
+        await processor.parse(`<details open onclick="alert(1)">
+<summary onmouseover="alert(1)">補足</summary>
+
+<script>alert(1)</script>
+<style>body{display:none}</style>
+<iframe src="https://evil.example/"></iframe>
+<img src="https://example.com/image.png" onerror="alert(1)">
+<a href="javascript:alert(1)">unsafe</a>
+
+</details>`);
+      expect(content).toContain("<details open>");
+      expect(content).toContain("<summary>補足</summary>");
+      expect(content).not.toMatch(
+        /<script|<style|<iframe|onclick|onmouseover|onerror|javascript:/i,
+      );
+      expect(content).toContain('src="https://example.com/image.png"');
+    });
+  });
 });
