@@ -1,7 +1,7 @@
 import { h } from "hastscript";
 import { visit } from "unist-util-visit";
 
-import type { Element, Root } from "hast";
+import type { Element, Root, Text } from "hast";
 import type { VFile } from "vfile";
 
 import {
@@ -13,7 +13,12 @@ import {
 
 // sanitize 後段で text placeholder を `<iframe>` に組み直す。
 // schema を一切経由しない (= 拡張ゼロ)。
-// 偽装防御は `store.get(value)` の存在チェックで担保 — attacker が markdown に同じ文字列を書いても store に entry が無いので素通り。
+// store に登録されていない placeholder は素通りする。
+
+const placeholderPattern = new RegExp(
+  `${PLACEHOLDER_PREFIX}\\d+${PLACEHOLDER_SUFFIX}`,
+  "g",
+);
 
 const buildYoutubeIframe = (embed: YoutubeEmbed): Element =>
   h(
@@ -44,14 +49,30 @@ const reattachEmbeds = () => (tree: Root, file: VFile) => {
   visit(tree, "text", (node, index, parent) => {
     if (index === undefined || parent === undefined) return;
     const value = node.value;
-    if (!value.startsWith(PLACEHOLDER_PREFIX)) return;
-    if (!value.endsWith(PLACEHOLDER_SUFFIX)) return;
+    const replacements: (Element | Text)[] = [];
+    let cursor = 0;
 
-    const embed = store.get(value);
-    if (!embed) return; // store に無い = handler 経由ではない = attacker、 触らない
+    for (const match of value.matchAll(placeholderPattern)) {
+      const placeholder = match[0];
+      const embed = store.get(placeholder);
+      if (!embed) continue;
 
-    parent.children.splice(index, 1, buildYoutubeIframe(embed));
-    store.delete(value);
+      if (match.index > cursor) {
+        replacements.push({
+          type: "text",
+          value: value.slice(cursor, match.index),
+        });
+      }
+      replacements.push(buildYoutubeIframe(embed));
+      store.delete(placeholder);
+      cursor = match.index + placeholder.length;
+    }
+
+    if (replacements.length === 0) return;
+    if (cursor < value.length) {
+      replacements.push({ type: "text", value: value.slice(cursor) });
+    }
+    parent.children.splice(index, 1, ...replacements);
   });
 };
 

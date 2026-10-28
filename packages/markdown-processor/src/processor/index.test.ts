@@ -125,5 +125,65 @@ describe("processor (factory)", () => {
       );
       expect(content).toContain('src="https://example.com/image.png"');
     });
+
+    it.each([
+      ["before text", "::youtube[abc]\n\n文章"],
+      ["after text", "文章\n\n::youtube[abc]"],
+    ])("restores YouTube embeds %s", async (_, markdown) => {
+      const processor = createMarkdownProcessor({
+        highlighter,
+        shikiOptions: MULTI_THEME,
+        rawHtml: true,
+      });
+      const { content } = await processor.parse(markdown);
+      expect(content).toContain("文章");
+      expect(content).toContain("<iframe");
+      expect(content).toContain('src="https://www.youtube.com/embed/abc"');
+      expect(content).not.toContain("__MAXIMUM_EMBED_");
+    });
+
+    it("restores YouTube embeds inside details", async () => {
+      const processor = createMarkdownProcessor({
+        highlighter,
+        shikiOptions: MULTI_THEME,
+        rawHtml: true,
+      });
+      const { content } = await processor.parse(`<details>
+<summary>動画</summary>
+
+::youtube[abc]
+
+</details>`);
+      expect(content).toContain("<details>");
+      expect(content).toContain("<iframe");
+      expect(content).not.toContain("__MAXIMUM_EMBED_");
+    });
+
+    it("restores consecutive YouTube embeds", async () => {
+      const processor = createMarkdownProcessor({
+        highlighter,
+        shikiOptions: MULTI_THEME,
+        rawHtml: true,
+      });
+      const { content } = await processor.parse(
+        "::youtube[abc]\n::youtube[def]",
+      );
+      expect(content.split("<iframe")).toHaveLength(3);
+      expect(content).not.toContain("__MAXIMUM_EMBED_");
+    });
+
+    it("keeps YouTube embeds with rawHtml disabled", async () => {
+      const processor = createMarkdownProcessor({
+        highlighter,
+        shikiOptions: MULTI_THEME,
+        rawHtml: false,
+      });
+      const { content } = await processor.parse(
+        "文章\n\n::youtube[abc]\n::youtube[def]",
+      );
+      expect(content.split("<iframe")).toHaveLength(3);
+      expect(content).toContain("文章");
+      expect(content).not.toContain("__MAXIMUM_EMBED_");
+    });
   });
 });
