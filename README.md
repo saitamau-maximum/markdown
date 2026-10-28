@@ -83,6 +83,31 @@ const css = processor.getStylesheet();
 - `::youtube[id]` 由来の `<iframe>` は sanitize の **後** で組み立てられるため、 schema を拡張する必要はない (詳細は `pipeline.ts` のコメント参照)
 - consumer の `rehypePlugins` は sanitize の後段で動く ── ここで raw HTML を挿してはいけない (= consumer 責任で trusted な内容のみ追加すること)
 
+### Raw HTML (opt-in)
+
+生HTMLはデフォルトで無効です。`<details>` や `<summary>` などを使用する場合は、`rawHtml: true` を指定してください。
+
+```ts
+import { createMarkdownProcessorWeb } from "@saitamau-maximum/markdown-processor/processor/web";
+
+const processor = await createMarkdownProcessorWeb({
+  rawHtml: true,
+});
+
+const { content } = await processor.parse(`
+<details>
+<summary>補足</summary>
+
+**太字**などのMarkdownを記述できます。
+
+</details>
+`);
+```
+
+- 生HTMLは `rehype-raw` で解析された後、既存の `rehype-sanitize` によってサニタイズされます。
+- HTML内でMarkdownを使用する場合は、空行を入れてください。
+- `factory`・`full`・`web` のすべてで利用できます。
+
 ## Migrating from v2
 
 v2 → v3 は破壊的変更。 詳細は [docs/migration-v3.md](./docs/migration-v3.md) 参照。
