@@ -36,6 +36,7 @@ export const remarkFallbackDirectives: Plugin<[], Root> = () => {
         }
       }
       if (node.type === "leafDirective" || node.type === "containerDirective") {
+        if (node.data?.hName) return;
         const directiveNode = node as Directives;
 
         if (
