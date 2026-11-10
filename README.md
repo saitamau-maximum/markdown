@@ -83,6 +83,19 @@ const css = processor.getStylesheet();
 - `::youtube[id]` 由来の `<iframe>` は sanitize の **後** で組み立てられるため、 schema を拡張する必要はない (詳細は `pipeline.ts` のコメント参照)
 - consumer の `rehypePlugins` は sanitize の後段で動く ── ここで raw HTML を挿してはいけない (= consumer 責任で trusted な内容のみ追加すること)
 
+### Details directive
+
+折りたたみ表示には `details` directive を使用できます。
+`[見出し]` は必須です。
+
+```md
+:::details[見出し]
+
+**太字**などの Markdown を記述できます。
+
+:::
+```
+
 ## Migrating from v2
 
 v2 → v3 は破壊的変更。 詳細は [docs/migration-v3.md](./docs/migration-v3.md) 参照。

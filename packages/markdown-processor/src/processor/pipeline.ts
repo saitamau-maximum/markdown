@@ -12,6 +12,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { type Plugin, type Pluggable, unified } from "unified";
 
+import type { Root } from "hast";
 import type { Schema } from "hast-util-sanitize";
 import type { HighlighterCore, ShikiTransformer } from "shiki";
 
@@ -19,6 +20,7 @@ import reattachEmbeds from "./plugins/reattach-embeds.js";
 import rehypeExtractToc, {
   type TocItem,
 } from "./plugins/rehype-extract-toc.js";
+import { remarkDetails } from "./plugins/remark-details.js";
 import {
   remarkEmbed,
   remarkEmbedHandlers,
@@ -69,6 +71,7 @@ export const buildProcessor = ({
     .use(remarkDirective)
     .use(remarkCodeTitle)
     .use(remarkEmbed, { ...remarkEmbedOption })
+    .use(remarkDetails)
     .use(remarkFallbackDirectives)
     .use(remarkRehype, { handlers: { ...remarkEmbedHandlers } })
     // slug は sanitize の前段に置く。
@@ -90,10 +93,13 @@ export const buildProcessor = ({
     for (const entry of rehypePlugins) {
       // unified の `.use([fn, opts])` 形式は 1 引数 Array を PluggableList と誤認するので tuple は自前で spread する。
       if (Array.isArray(entry)) {
-        const [pluginFn, ...args] = entry as [Plugin<unknown[]>, ...unknown[]];
+        const [pluginFn, ...args] = entry as [
+          Plugin<unknown[], Root>,
+          ...unknown[],
+        ];
         p = p.use(pluginFn, ...args);
       } else {
-        p = p.use(entry as Plugin<unknown[]>);
+        p = p.use(entry as Plugin<unknown[], Root>);
       }
     }
   }
