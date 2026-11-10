@@ -1,5 +1,11 @@
 # @saitamau-maximum/markdown-processor
 
+## 3.1.0
+
+### Minor Changes
+
+- [#41](https://github.com/saitamau-maximum/markdown/pull/41) [`3661cb9`](https://github.com/saitamau-maximum/markdown/commit/3661cb98647b2353170f61ce269fccdb2bb8fa77) Thanks [@hinemosu1415](https://github.com/hinemosu1415)! - Add a `:::details[summary]` directive with Markdown content.
+
 ## 3.0.0
 
 ### Major Changes
